@@ -55,10 +55,44 @@ title: Физтех | ПИ
     display: none;
   }
 
+/* Горизонтальная прокрутка для всех дней недели */
   .schedule-block.active {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    display: flex;
     gap: 12px;
+    overflow-x: auto; /* Включает горизонтальную прокрутку */
+    padding-bottom: 10px; /* Зазор для полосы прокрутки */
+    scroll-behavior: smooth;
+  }
+
+  /* Фиксируем ширину каждого дня, чтобы они не сжимались */
+  .day-column {
+    background-color: var(--lightbg);
+    border: 1px solid var(--lightgray);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    min-width: 170px; /* Минимальная ширина колонки дня */
+    flex: 1 0 170px;  /* Колонки не будут сжиматься меньше 170px */
+  }
+
+  /* Красивая полоса прокрутки (Scrollbar) */
+  .schedule-block.active::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .schedule-block.active::-webkit-scrollbar-track {
+    background: var(--lightbg);
+    border-radius: 4px;
+  }
+
+  .schedule-block.active::-webkit-scrollbar-thumb {
+    background: var(--lightgray);
+    border-radius: 4px;
+  }
+
+  .schedule-block.active::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
   }
 
   .day-column {

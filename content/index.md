@@ -541,14 +541,33 @@ title: Физтех | ПИ
   <div class="day-column">
     <div class="day-header">Вт</div>
     <div class="lesson-card">
-      <div class="lesson-time">9:50 <span class="lesson-type">ЛК</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">323А</span>
+      <div class="lesson-time">8:00 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Проектная деятельность</div>
+      <span class="lesson-room">315А</span>
     </div>
     <div class="lesson-card">
+      <div class="lesson-time">9:50 <span class="lesson-type">ЛК</span></div>
+      <div class="lesson-name">Алгоритмизация и программирование</div>
+      <span class="lesson-room">302А</span>
+    </div>
+	<div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ЛК</span></div>
-      <div class="lesson-name">Высшая математика</div>
+      <div class="lesson-name">Высшая математика)</div>
       <span class="lesson-room">323А</span>
+    </div>
+  </div>
+
+<div class="day-column">
+    <div class="day-header">Ср</div>
+    <div class="lesson-card">
+      <div class="lesson-time">8:00 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Высшая математика</div>
+      <span class="lesson-room">211А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">0 <span class="lesson-type">ЛК</span></div>
+      <div class="lesson-name">Высшая математика</div>
+      <span class="lesson-room">302А</span>
     </div>
 	<div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
@@ -558,20 +577,21 @@ title: Физтех | ПИ
   </div>
 
   <div class="day-column">
-    <div class="day-header">Ср</div>
-    <div class="lesson-card">
-      <div class="lesson-time">8:00 <span class="lesson-type">ПЗ</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">11А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
     <div class="day-header">Чт</div>
     <div class="lesson-card">
       <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Физическая культура</div>
       <span class="lesson-room">спортзал</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Информатика и основы программирования (т/гр 1)</div>
+      <span class="lesson-room">120А</span>
+    </div>
+	<div class="lesson-card">
+      <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Информатика и основы программирования (и/гр 2)</div>
+      <span class="lesson-room">120А</span>
     </div>
   </div>
 

@@ -1,3 +1,52 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+/* Стиль для контейнера расписания */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+/* Карточка дня */
+.day-card {
+  background: var(--lightbg);
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.day-card h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  border-bottom: 2px solid var(--secondary);
+  padding-bottom: 4px;
+  color: var(--tertiary);
+}
+
+/* Элемент пары */
+.pair {
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  background: var(--highlight);
+  border-left: 3px solid var(--secondary);
+  border-radius: 4px;
+}
+
+.pair-time {
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: var(--secondary);
+}
+
+.pair-title {
+  font-size: 0.9rem;
+  margin: 2px 0;
+}
+
+.pair-room {
+  font-size: 0.75rem;
+  color: var(--gray);
+}

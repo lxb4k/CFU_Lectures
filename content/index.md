@@ -583,7 +583,7 @@ title: Физтех | ПИ
   <h3>💡 Есть вопросы или замечания по расписанию?</h3>
   <p>Если заметили ошибку в кабинетах или времени пар, напишите автору проекта:</p>
   <div class="contact-buttons">
-    <a href="https://t.me/ваш_username" target="_blank" class="contact-btn telegram">
+    <a href="https://t.me/@lxb4k" target="_blank" class="contact-btn telegram">
       📱 Написать в Telegram
     </a>
   </div>

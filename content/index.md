@@ -55,26 +55,25 @@ title: Физтех | ПИ
     display: none;
   }
 
-/* Контейнер с горизонтальной прокруткой */
+ /* Включаем прокрутку и фиксируем выравнивание по высоте содержимого */
   .schedule-block.active {
     display: flex;
-    gap: 8px; /* Немного уменьшаем зазор между днями */
+    gap: 8px;
     overflow-x: auto;
     padding-bottom: 10px;
     scroll-behavior: smooth;
+    align-items: flex-start; /* Колонка дня занимает ровно столько места, сколько в ней пар */
   }
 
-  /* Расчет ширины: 5 колонок помещаются идеально (100% / 5 с учетом зазоров) */
+  /* Фиксированная ширина: ровно 5 колонок на экран, 6-я (Сб) скроллится */
   .day-column {
     background-color: var(--lightbg);
     border: 1px solid var(--lightgray);
     border-radius: 8px;
-    padding: 8px; /* Чуть ужимаем внутренний отступ */
+    padding: 8px;
     display: flex;
     flex-direction: column;
-    
-    /* Делаем ширину такой, чтобы ровно 5 колонок занимали весь экран, а 6-я (Сб) выходила за край */
-    min-width: calc((100% - 32px) / 5); 
+    min-width: calc((100% - 32px) / 5);
     flex: 0 0 calc((100% - 32px) / 5);
     box-sizing: border-box;
   }

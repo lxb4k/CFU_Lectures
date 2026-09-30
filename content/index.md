@@ -610,7 +610,7 @@ title: Физтех | ПИ
   </div>
 
 <div class="day-column">
-    <div class="day-header">Пт</div>
+    <div class="day-header">Сб</div>
     <div class="lesson-card">
       <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Структуры и алгоритмы обработки данных(п/гр 1)</div>

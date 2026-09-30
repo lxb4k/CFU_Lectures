@@ -331,11 +331,8 @@ function switchWeek(weekId, btn) {
   <h3>💡 Нашли ошибку или есть предложения?</h3>
   <p>Если изменилось аудитория, перенеслась пара или вы хотите предложить улучшение для сайта:</p>
   <div class="contact-buttons">
-    <a href="https://t.me/ваш_username" target="_blank" class="contact-btn telegram">
+    <a href="https://t.me/lxb4k" target="_blank" class="contact-btn telegram">
       📱 Написать в Telegram
-    </a>
-    <a href="mailto:ваш_email@example.com" class="contact-btn email">
-      ✉️ Отправить на почту
     </a>
   </div>
 </div>

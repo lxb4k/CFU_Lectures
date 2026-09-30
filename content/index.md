@@ -517,14 +517,14 @@ title: Физтех | ПИ
   <div class="day-column">
     <div class="day-header">Пн</div>
     <div class="lesson-card">
-      <div class="lesson-time">11:30</div>
+      <div class="lesson-time">11:30 <span class="lesson-type">ЛК</span></div>
       <div class="lesson-name">История России</div>
-      <span class="lesson-room">ОК-322А</span>
+      <span class="lesson-room">323А</span>
     </div>
     <div class="lesson-card">
-      <div class="lesson-time">13:20</div>
+      <div class="lesson-time">13:20 <span class="lesson-type">ЛК</span></div>
       <div class="lesson-name">Информатика и основы программирования</div>
-      <span class="lesson-room">ОК-322А</span>
+      <span class="lesson-room">323А</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">15:00 <span class="lesson-type">ЛК</span></div>
@@ -541,49 +541,69 @@ title: Физтех | ПИ
   <div class="day-column">
     <div class="day-header">Вт</div>
     <div class="lesson-card">
-      <div class="lesson-time">9:50</div>
+      <div class="lesson-time">9:50 <span class="lesson-type">ЛК</span></div>
       <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">СК-322А</span>
+      <span class="lesson-room">323А</span>
     </div>
     <div class="lesson-card">
-      <div class="lesson-time">11:30</div>
+      <div class="lesson-time">11:30 <span class="lesson-type">ЛК</span></div>
       <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">ОК-303б</span>
+      <span class="lesson-room">323А</span>
+    </div>
+	<div class="lesson-card">
+      <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Иностранный язык (п/гр 1)</div>
+      <span class="lesson-room">500Б</span>
     </div>
   </div>
 
   <div class="day-column">
     <div class="day-header">Ср</div>
     <div class="lesson-card">
-      <div class="lesson-time">8:00</div>
+      <div class="lesson-time">8:00 <span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">ПЗ-2114</span>
+      <span class="lesson-room">11А</span>
     </div>
   </div>
 
   <div class="day-column">
     <div class="day-header">Чт</div>
     <div class="lesson-card">
-      <div class="lesson-time">9:50</div>
+      <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Физическая культура</div>
-      <span class="lesson-room">ПЗ-спортзал</span>
+      <span class="lesson-room">спортзал</span>
     </div>
   </div>
 
-  <div class="day-column">
+ <div class="day-column">
     <div class="day-header">Пт</div>
     <div class="lesson-card">
-      <div class="lesson-time">11:30</div>
-      <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">ПЗ-8А</span>
+      <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Алгоритмизация и программирование (п/гр 1)</div>
+      <span class="lesson-room">8А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">13:20 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Алгоритмизация и программирование (п/гр 2)</div>
+      <span class="lesson-room">8А</span>
     </div>
   </div>
 
-  <div class="day-column">
-    <div class="day-header">Сб</div>
-    <div class="no-lessons">Пар нет</div>
+<div class="day-column">
+    <div class="day-header">Пт</div>
+    <div class="lesson-card">
+      <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Структуры и алгоритмы обработки данных(п/гр 1)</div>
+      <span class="lesson-room">308А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Структуры и алгоритмы обработки данных (п/гр 2)</div>
+      <span class="lesson-room">308А</span>
+    </div>
   </div>
-</div>
+
+
 
 <!-- БЛОК ОБ АВТОРЕ -->
 <div class="contact-box">

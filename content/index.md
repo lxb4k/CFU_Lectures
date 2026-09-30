@@ -334,17 +334,17 @@ title: Физтех | ПИ
     <div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ЛК</span></div>
       <div class="lesson-name">История России</div>
-      <span class="lesson-room">ОК-323А</span>
+      <span class="lesson-room">323А</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">13:20<span class="lesson-type">ЛК</span></div>
       <div class="lesson-name">Информатика и основы программирования</div>
-      <span class="lesson-room">ОК-323А</span>
+      <span class="lesson-room">323А</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">15:00<span class="lesson-type">ЛК</span></div>
       <div class="lesson-name">Структуры и алгоритмы обработки данных</div>
-      <span class="lesson-room">ОК-323А</span>
+      <span class="lesson-room">323А</span>
     </div>
   </div>
 
@@ -353,12 +353,12 @@ title: Физтех | ПИ
     <div class="lesson-card">
       <div class="lesson-time">9:50<span class="lesson-type">ЛК</span></div>
       <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">СК-302А</span>
+      <span class="lesson-room">302А</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">11:30<span class="lesson-type">ЛК</span></div>
       <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">ОК-323А</span>
+      <span class="lesson-room">323А</span>
     </div>
   </div>
 
@@ -367,17 +367,17 @@ title: Физтех | ПИ
     <div class="lesson-card">
       <div class="lesson-time">8:00<span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Иностранный язык</div>
-      <span class="lesson-room">ПЗ-525Б</span>
+      <span class="lesson-room">525Б</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">9:50<span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">ПЗ-211F</span>
+      <span class="lesson-room">211А</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">11:30<span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">История России</div>
-      <span class="lesson-room">ПЗ-302В</span>
+      <span class="lesson-room">302В</span>
     </div>
   </div>
 
@@ -386,7 +386,7 @@ title: Физтех | ПИ
     <div class="lesson-card">
       <div class="lesson-time">9:50<span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Физическая культура</div>
-      <span class="lesson-room">ПЗ-спортзал</span>
+      <span class="lesson-room">спортзал</span>
     </div>
   </div>
 
@@ -409,7 +409,7 @@ title: Физтех | ПИ
     <div class="lesson-card">
       <div class="lesson-time">13:20<span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Структуры и алгоритмы обработки данных п1</div>
-      <span class="lesson-room">ПЗ-308F</span>
+      <span class="lesson-room">308А</span>
     </div>
   </div>
 </div>
@@ -479,7 +479,8 @@ title: Физтех | ПИ
       <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Физическая культура</div>
       <span class="lesson-room">спортзал</span>
-      </div>
+    </div>
+    <div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Информатика и основы программирования (п/гр 1)</div>
       <span class="lesson-room">119А</span>

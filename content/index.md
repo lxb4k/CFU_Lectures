@@ -1,8 +1,6 @@
 ---
 title: Физтех | ПИ
 ---
----
-
 
 Официальное расписание на [cfuv.ru](https://cfuv.ru): **ПИ-б-о-262** · **ПИ-б-о-261**
 
@@ -55,17 +53,16 @@ title: Физтех | ПИ
     display: none;
   }
 
- /* Включаем прокрутку и фиксируем выравнивание по высоте содержимого */
+  /* ПК ВЕРСИЯ: 5 дней на экран + скролл для субботы */
   .schedule-block.active {
     display: flex;
     gap: 8px;
     overflow-x: auto;
     padding-bottom: 10px;
     scroll-behavior: smooth;
-    align-items: flex-start; /* Колонка дня занимает ровно столько места, сколько в ней пар */
+    align-items: flex-start;
   }
 
-  /* Фиксированная ширина: ровно 5 колонок на экран, 6-я (Сб) скроллится */
   .day-column {
     background-color: var(--lightbg);
     border: 1px solid var(--lightgray);
@@ -78,9 +75,23 @@ title: Физтех | ПИ
     box-sizing: border-box;
   }
 
-  /* Красивая полоса прокрутки (Scrollbar) */
+  /* МОБИЛЬНАЯ ВЕРСИЯ: Традиционный вертикальный список */
+  @media (max-width: 768px) {
+    .schedule-block.active {
+      flex-direction: column;
+      overflow-x: visible;
+      align-items: stretch;
+    }
+
+    .day-column {
+      min-width: 100%;
+      flex: 1 1 100%;
+    }
+  }
+
+  /* Стилизация полосы прокрутки для ПК */
   .schedule-block.active::-webkit-scrollbar {
-    height: 8px;
+    height: 6px;
   }
 
   .schedule-block.active::-webkit-scrollbar-track {
@@ -97,22 +108,13 @@ title: Физтех | ПИ
     background: var(--secondary);
   }
 
-  .day-column {
-    background-color: var(--lightbg);
-    border: 1px solid var(--lightgray);
-    border-radius: 8px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-  }
-
   .day-header {
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--secondary);
     border-bottom: 2px solid var(--tertiary);
-    padding-bottom: 6px;
-    margin-bottom: 10px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
     text-align: center;
   }
 
@@ -129,91 +131,80 @@ title: Физтех | ПИ
   }
 
   .lesson-time {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
     color: var(--tertiary);
     margin-bottom: 2px;
   }
 
   .lesson-type {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--gray);
-    margin-left: 4px;
+    margin-left: 2px;
   }
 
   .lesson-name {
-    font-size: 0.85rem;
-    line-height: 1.25;
+    font-size: 0.8rem;
+    line-height: 1.2;
     color: var(--dark);
     margin-bottom: 4px;
   }
 
   .lesson-room {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     display: inline-block;
     background-color: var(--lightgray);
     color: var(--gray);
-    padding: 1px 5px;
+    padding: 1px 4px;
     border-radius: 3px;
     font-family: monospace;
   }
 
   .no-lessons {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--gray);
     text-align: center;
-    margin: auto 0;
-    padding: 20px 0;
+    padding: 12px 0;
   }
 
+  /* Аккуратный минималистичный блок об авторе */
   .contact-box {
+    margin-top: 2rem;
+    padding: 12px 16px;
     background-color: var(--lightbg);
-    border: 1px dashed var(--secondary);
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin-top: 1.5rem;
-    text-align: center;
-  }
-
-  .contact-box h3 {
-    margin-top: 0;
-    margin-bottom: 8px;
-    color: var(--secondary);
-    font-size: 1.1rem;
-  }
-
-  .contact-box p {
-    font-size: 0.85rem;
-    color: var(--gray);
-    margin-bottom: 12px;
-  }
-
-  .contact-buttons {
+    border: 1px solid var(--lightgray);
+    border-radius: 6px;
     display: flex;
-    justify-content: center;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     flex-wrap: wrap;
   }
 
+  .contact-text {
+    font-size: 0.8rem;
+    color: var(--gray);
+    line-height: 1.3;
+  }
+
   .contact-btn {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 0.8rem;
     font-weight: 600;
     text-decoration: none !important;
-    transition: opacity 0.2s;
+    background-color: #2AABEE;
+    color: #ffffff !important;
+    transition: opacity 0.2s ease;
   }
 
   .contact-btn:hover {
     opacity: 0.85;
-  }
-
-  .telegram {
-    background-color: #2AABEE;
-    color: #ffffff !important;
   }
 </style>
 
@@ -578,15 +569,12 @@ title: Физтех | ПИ
   </div>
 </div>
 
-<!-- БЛОК ОБРАТНОЙ СВЯЗИ -->
+<!-- АККУРАТНЫЙ БЛОК ОБ АВТОРЕ -->
 <div class="contact-box">
-  <h3>💡 Есть вопросы или замечания по расписанию?</h3>
-  <p>Если заметили ошибку в кабинетах или времени пар, напишите автору проекта:</p>
-  <div class="contact-buttons">
-    <a href="https://t.me/@lxb4k" target="_blank" class="contact-btn telegram">
-      📱 Написать в Telegram
-    </a>
-  </div>
+  <span class="contact-text">Заметили ошибку в расписании или есть предложения?</span>
+  <a href="https://t.me/lxb4k" target="_blank" class="contact-btn">
+    Telegram
+  </a>
 </div>
 
 <!-- СКРИПТ ПЕРЕКЛЮЧЕНИЯ ГРУПП И НЕДЕЛЬ -->

@@ -1,37 +1,223 @@
 ---
-title: Главная
+title: Лекции ПИ
 ---
 ---
-Официальное расписание на cfuv.ru: [ПИ-б-о-262](https://cfuv.ru/raspisanie/#g=%D0%9F%D0%98-%D0%B1-%D0%BE-262) · [ПИ-б-о-261](https://cfuv.ru/raspisanie/#g=%D0%9F%D0%98-%D0%B1-%D0%BE-261)
 
-<div class="sch">
-<div class="sch-ctl">
-<button data-set-g="262">262</button>
-<button data-set-g="261">261</button>
-<button data-set-w="A">Неделя А</button>
-<button data-set-w="B">Неделя Б</button>
+Официальное расписание на [cfuv.ru](https://cfuv.ru): **ПИ-б-о-262** · **ПИ-б-о-261**
+
+<!-- CSS стили расписания -->
+<style>
+  /* Переключатели недель */
+  .week-toggle {
+    display: flex;
+    gap: 10px;
+    margin: 1.2rem 0;
+  }
+
+  .week-btn {
+    background: var(--lightbg);
+    color: var(--gray);
+    border: 1px solid var(--lightgray);
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .week-btn:hover {
+    border-color: var(--secondary);
+    color: var(--secondary);
+  }
+
+  .week-btn.active {
+    background: var(--secondary);
+    color: var(--bg);
+    border-color: var(--secondary);
+  }
+
+  /* Контейнер сетки дней */
+  .week-content {
+    display: none;
+  }
+
+  .week-content.active {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  /* Колонки дней */
+  .day-column {
+    background-color: var(--lightbg);
+    border: 1px solid var(--lightgray);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .day-header {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--secondary);
+    border-bottom: 2px solid var(--tertiary);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  /* Карточки пар */
+  .lesson-card {
+    background-color: var(--highlight);
+    border-left: 3px solid var(--secondary);
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-bottom: 8px;
+  }
+
+  .lesson-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .lesson-time {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--tertiary);
+    margin-bottom: 2px;
+  }
+
+  .lesson-type {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-left: 4px;
+  }
+
+  .lesson-name {
+    font-size: 0.85rem;
+    line-height: 1.25;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+
+  .lesson-room {
+    font-size: 0.75rem;
+    display: inline-block;
+    background-color: var(--lightgray);
+    color: var(--gray);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: monospace;
+  }
+
+  .no-lessons {
+    font-size: 0.85rem;
+    color: var(--gray);
+    text-align: center;
+    margin: auto 0;
+    padding: 20px 0;
+  }
+</style>
+
+<!-- Кнопки переключения -->
+<div class="week-toggle">
+  <button class="week-btn active" onclick="switchWeek('week-a', this)">Неделя А</button>
+  <button class="week-btn" onclick="switchWeek('week-b', this)">Неделя Б</button>
 </div>
-<div class="sch-tabs">
-<button data-set-d="0">Пн</button>
-<button data-set-d="1">Вт</button>
-<button data-set-d="2">Ср</button>
-<button data-set-d="3">Чт</button>
-<button data-set-d="4">Пт</button>
-<button data-set-d="5">Сб</button>
+
+<!-- ================= НЕДЕЛЯ А ================= -->
+<div id="week-a" class="week-content active">
+  <div class="day-column">
+    <div class="day-header">Пн</div>
+    <div class="lesson-card">
+      <div class="lesson-time">11:30 <span class="lesson-type">ЛК</span></div>
+      <div class="lesson-name">История России</div>
+      <span class="lesson-room">323А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">13:20 <span class="lesson-type">ЛК</span></div>
+      <div class="lesson-name">Русский язык как государственный</div>
+      <span class="lesson-room">323А</span>
+    </div>
+  </div>
+
+  <div class="day-column">
+    <div class="day-header">Вт</div>
+    <div class="lesson-card">
+      <div class="lesson-time">8:00 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Проектная деятельность</div>
+      <span class="lesson-room">315А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">9:50 <span class="lesson-type">ЛК</span></div>
+      <div class="lesson-name">Алгоритмизация и программирование</div>
+      <span class="lesson-room">302А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">11:30 <span class="lesson-type">ЛК</span></div>
+      <div class="lesson-name">Высшая математика</div>
+      <span class="lesson-room">323А</span>
+    </div>
+  </div>
+
+  <div class="day-column">
+    <div class="day-header">Ср</div>
+    <div class="lesson-card">
+      <div class="lesson-time">8:00 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Иностранный язык</div>
+      <span class="lesson-room">531Б/525Б</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Высшая математика</div>
+      <span class="lesson-room">211А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">История России</div>
+      <span class="lesson-room">302В</span>
+    </div>
+  </div>
+
+  <div class="day-column">
+    <div class="day-header">Чт</div>
+    <div class="lesson-card">
+      <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Физическая культура</div>
+      <span class="lesson-room">спортзал</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Русский язык как государственный</div>
+      <span class="lesson-room">412В</span>
+    </div>
+  </div>
+
+  <div class="day-column">
+    <div class="day-header">Пт</div>
+    <div class="lesson-card">
+      <div class="lesson-time">15:00 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Алгоритмизация и программирование</div>
+      <span class="lesson-room">117А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">16:40 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Информатика и основы программирования</div>
+      <span class="lesson-room">119А</span>
+    </div>
+  </div>
+
+  <div class="day-column">
+    <div class="day-header">Сб</div>
+    <div class="no-lessons">Пар нет</div>
+  </div>
 </div>
-<div class="sch-cap">ПИ-б-о-262 · неделя А</div>
-<div class="sch-grid" data-g="262" data-w="A">
-<div class="day" data-d="0"><div class="dh">Пн</div><ul><li><b>11:30</b> История России<br><small>ЛК · 323А</small></li><li><b>13:20</b> Русский язык как государственный<br><small>ЛК · 323А</small></li></ul></div>
-<div class="day" data-d="1"><div class="dh">Вт</div><ul><li><b>8:00</b> Проектная деятельность<br><small>ПЗ · 315А</small></li><li><b>9:50</b> Алгоритмизация и программирование<br><small>ЛК · 302А</small></li><li><b>11:30</b> Высшая математика<br><small>ЛК · 323А</small></li></ul></div>
-<div class="day" data-d="2"><div class="dh">Ср</div><ul><li><b>8:00</b> Иностранный язык<br><small>ПЗ · 531Б/525Б</small></li><li><b>9:50</b> Высшая математика<br><small>ПЗ · 211А</small></li><li><b>11:30</b> История России<br><small>ПЗ · 302В</small></li></ul></div>
-<div class="day" data-d="3"><div class="dh">Чт</div><ul><li><b>9:50</b> Физическая культура<br><small>ПЗ · спортзал</small></li><li><b>11:30</b> Русский язык как государственный<br><small>ПЗ · 412В</small></li></ul></div>
-<div class="day" data-d="4"><div class="dh">Пт</div><ul><li><b>15:00</b> Алгоритмизация и программирование<br><small>ПЗ · 117А</small></li><li><b>16:40</b> Информатика и основы программирования<br><small>ПЗ · 119А</small></li></ul></div>
-<div class="day" data-d="5"><div class="dh">Сб</div><div class="none">Пар нет</div></div>
-</div>
-<div class="sch-cap">ПИ-б-о-262 · неделя Б</div>
-<div class="sch-grid" data-g="262" data-w="B">
-<div class="schedule-container">
-  <!-- Пн -->
+
+<!-- ================= НЕДЕЛЯ Б ================= -->
+<div id="week-b" class="week-content">
   <div class="day-column">
     <div class="day-header">Пн</div>
     <div class="lesson-card">
@@ -56,7 +242,6 @@ title: Главная
     </div>
   </div>
 
-  <!-- Вт -->
   <div class="day-column">
     <div class="day-header">Вт</div>
     <div class="lesson-card">
@@ -76,7 +261,6 @@ title: Главная
     </div>
   </div>
 
-  <!-- Ср -->
   <div class="day-column">
     <div class="day-header">Ср</div>
     <div class="lesson-card">
@@ -96,7 +280,6 @@ title: Главная
     </div>
   </div>
 
-  <!-- Чт -->
   <div class="day-column">
     <div class="day-header">Чт</div>
     <div class="lesson-card">
@@ -116,7 +299,6 @@ title: Главная
     </div>
   </div>
 
-  <!-- Пт -->
   <div class="day-column">
     <div class="day-header">Пт</div>
     <div class="lesson-card">
@@ -131,7 +313,6 @@ title: Главная
     </div>
   </div>
 
-  <!-- Сб -->
   <div class="day-column">
     <div class="day-header">Сб</div>
     <div class="lesson-card">
@@ -147,87 +328,13 @@ title: Главная
   </div>
 </div>
 
-<style>
-.sch{margin:1rem 0}
-.sch-ctl,.sch-tabs{display:none;flex-wrap:wrap;gap:.4rem;margin-bottom:.75rem}
-.sch.js .sch-ctl{display:flex}
-.sch-ctl button,.sch-tabs button{font:inherit;font-size:.85rem;padding:.35rem .75rem;border:1px solid var(--lightgray);border-radius:8px;background:transparent;color:var(--darkgray);cursor:pointer}
-.sch-ctl button.on,.sch-tabs button.on{background:var(--secondary);border-color:var(--secondary);color:var(--light)}
-.sch-ctl button.cur::after{content:" ●";font-size:.6em;vertical-align:middle}
-.sch-cap{font-size:.9rem;color:var(--gray);margin:1rem 0 .4rem}
-.sch.js .sch-cap{display:none}
-.sch-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.5rem;margin-bottom:.5rem}
-.sch.js .sch-grid{display:none}
-.sch.js .sch-grid.on{display:grid}
-.day{border:1px solid var(--lightgray);border-radius:8px;padding:.5rem .6rem;font-size:.8rem;line-height:1.3}
-.day.today{border-color:var(--secondary)}
-.day .dh{font-weight:600;color:var(--secondary);margin-bottom:.4rem}
-.day ul{list-style:none;margin:0;padding:0}
-.day li{margin:0 0 .45rem;padding:0}
-.day li small{color:var(--gray)}
-.day .none{color:var(--gray)}
-@media (max-width:1000px){
-.sch-grid{grid-template-columns:1fr}
-.sch.js .sch-tabs{display:flex}
-.sch.js .day{display:none}
-.sch.js .day.sel{display:block}
-.day{font-size:.95rem}
-}
-</style>
-
+<!-- Скрипт переключения -->
 <script>
-(function () {
-  function init() {
-    var root = document.querySelector('.sch');
-    if (!root || root.getAttribute('data-ready')) return;
-    root.setAttribute('data-ready', '1');
-    root.classList.add('js');
-    var now = new Date();
-    var today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-    var dow = (now.getDay() + 6) % 7;
-    var week = Math.floor((today - Date.UTC(2026, 8, 7)) / 86400000 / 7);
-    var realW = (((week % 2) + 2) % 2) ? 'B' : 'A';
-    var st = { g: '262', w: realW, d: dow > 5 ? 0 : dow };
-    if (dow > 5) st.w = realW === 'A' ? 'B' : 'A';
-    try {
-      var sg = localStorage.getItem('sch-g');
-      if (sg === '261' || sg === '262') st.g = sg;
-    } catch (e) {}
-    var todayIdx = dow > 5 ? -1 : dow;
-    function each(sel, fn) {
-      Array.prototype.forEach.call(root.querySelectorAll(sel), fn);
-    }
-    function render() {
-      each('.sch-grid', function (g) {
-        var on = g.getAttribute('data-g') === st.g && g.getAttribute('data-w') === st.w;
-        g.classList.toggle('on', on);
-        Array.prototype.forEach.call(g.querySelectorAll('.day'), function (d) {
-          var i = Number(d.getAttribute('data-d'));
-          d.classList.toggle('sel', i === st.d);
-          d.classList.toggle('today', i === todayIdx && st.w === realW);
-        });
-      });
-      each('[data-set-g]', function (b) { b.classList.toggle('on', b.getAttribute('data-set-g') === st.g); });
-      each('[data-set-w]', function (b) {
-        b.classList.toggle('on', b.getAttribute('data-set-w') === st.w);
-        b.classList.toggle('cur', b.getAttribute('data-set-w') === realW);
-      });
-      each('[data-set-d]', function (b) { b.classList.toggle('on', Number(b.getAttribute('data-set-d')) === st.d); });
-    }
-    root.addEventListener('click', function (e) {
-      var b = e.target.closest('button');
-      if (!b) return;
-      if (b.hasAttribute('data-set-g')) {
-        st.g = b.getAttribute('data-set-g');
-        try { localStorage.setItem('sch-g', st.g); } catch (e2) {}
-      }
-      if (b.hasAttribute('data-set-w')) st.w = b.getAttribute('data-set-w');
-      if (b.hasAttribute('data-set-d')) st.d = Number(b.getAttribute('data-set-d'));
-      render();
-    });
-    render();
-  }
-  init();
-  document.addEventListener('nav', init);
-})();
+function switchWeek(weekId, btn) {
+  document.querySelectorAll('.week-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.week-btn').forEach(el => el.classList.remove('active'));
+  
+  document.getElementById(weekId).classList.add('active');
+  btn.classList.add('active');
+}
 </script>

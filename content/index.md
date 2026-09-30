@@ -1,6 +1,8 @@
 ---
 title: Физтех | ПИ
 ---
+---
+
 
 Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): **ПИ-б-о-262** · **ПИ-б-о-261**
 
@@ -550,14 +552,14 @@ title: Физтех | ПИ
       <div class="lesson-name">Алгоритмизация и программирование</div>
       <span class="lesson-room">302А</span>
     </div>
-	<div class="lesson-card">
+    <div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ЛК</span></div>
-      <div class="lesson-name">Высшая математика)</div>
+      <div class="lesson-name">Высшая математика</div>
       <span class="lesson-room">323А</span>
     </div>
   </div>
 
-<div class="day-column">
+  <div class="day-column">
     <div class="day-header">Ср</div>
     <div class="lesson-card">
       <div class="lesson-time">8:00 <span class="lesson-type">ПЗ</span></div>
@@ -569,7 +571,7 @@ title: Физтех | ПИ
       <div class="lesson-name">Высшая математика</div>
       <span class="lesson-room">302А</span>
     </div>
-	<div class="lesson-card">
+    <div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Иностранный язык (п/гр 1)</div>
       <span class="lesson-room">500Б</span>
@@ -588,14 +590,14 @@ title: Физтех | ПИ
       <div class="lesson-name">Информатика и основы программирования (т/гр 1)</div>
       <span class="lesson-room">120А</span>
     </div>
-	<div class="lesson-card">
+    <div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">Информатика и основы программирования (и/гр 2)</div>
       <span class="lesson-room">120А</span>
     </div>
   </div>
 
- <div class="day-column">
+  <div class="day-column">
     <div class="day-header">Пт</div>
     <div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
@@ -609,7 +611,7 @@ title: Физтех | ПИ
     </div>
   </div>
 
-<div class="day-column">
+  <div class="day-column">
     <div class="day-header">Сб</div>
     <div class="lesson-card">
       <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
@@ -622,8 +624,7 @@ title: Физтех | ПИ
       <span class="lesson-room">308А</span>
     </div>
   </div>
-
-
+</div>
 
 <!-- БЛОК ОБ АВТОРЕ -->
 <div class="contact-box">

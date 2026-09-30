@@ -313,21 +313,6 @@ title: Лекции ПИ
     </div>
   </div>
 
-  <div class="day-column">
-    <div class="day-header">Сб</div>
-    <div class="lesson-card">
-      <div class="lesson-time">9:50</div>
-      <div class="lesson-name">Структуры и алгоритмы обработки данных п1</div>
-      <span class="lesson-room">ПЗ-3084</span>
-    </div>
-    <div class="lesson-card">
-      <div class="lesson-time">11:30</div>
-      <div class="lesson-name">Структуры и алгоритмы обработки данных п2</div>
-      <span class="lesson-room">ПЗ-3084</span>
-    </div>
-  </div>
-</div>
-
 <!-- Скрипт переключения -->
 <script>
 function switchWeek(weekId, btn) {

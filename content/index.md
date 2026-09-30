@@ -55,25 +55,28 @@ title: Физтех | ПИ
     display: none;
   }
 
-/* Горизонтальная прокрутка для всех дней недели */
+/* Контейнер с горизонтальной прокруткой */
   .schedule-block.active {
     display: flex;
-    gap: 12px;
-    overflow-x: auto; /* Включает горизонтальную прокрутку */
-    padding-bottom: 10px; /* Зазор для полосы прокрутки */
+    gap: 8px; /* Немного уменьшаем зазор между днями */
+    overflow-x: auto;
+    padding-bottom: 10px;
     scroll-behavior: smooth;
   }
 
-  /* Фиксируем ширину каждого дня, чтобы они не сжимались */
+  /* Расчет ширины: 5 колонок помещаются идеально (100% / 5 с учетом зазоров) */
   .day-column {
     background-color: var(--lightbg);
     border: 1px solid var(--lightgray);
     border-radius: 8px;
-    padding: 10px;
+    padding: 8px; /* Чуть ужимаем внутренний отступ */
     display: flex;
     flex-direction: column;
-    min-width: 170px; /* Минимальная ширина колонки дня */
-    flex: 1 0 170px;  /* Колонки не будут сжиматься меньше 170px */
+    
+    /* Делаем ширину такой, чтобы ровно 5 колонок занимали весь экран, а 6-я (Сб) выходила за край */
+    min-width: calc((100% - 32px) / 5); 
+    flex: 0 0 calc((100% - 32px) / 5);
+    box-sizing: border-box;
   }
 
   /* Красивая полоса прокрутки (Scrollbar) */

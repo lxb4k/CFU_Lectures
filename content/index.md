@@ -338,3 +338,19 @@ function switchWeek(weekId, btn) {
   btn.classList.add('active');
 }
 </script>
+
+<!-- Контакты -->
+<hr style="margin-top: 2rem; border-color: var(--lightgray);" />
+
+<div class="contact-box">
+  <h3>💡 Нашли ошибку или есть предложения?</h3>
+  <p>Если изменилось аудитория, перенеслась пара или вы хотите предложить улучшение для сайта:</p>
+  <div class="contact-buttons">
+    <a href="https://t.me/ваш_username" target="_blank" class="contact-btn telegram">
+      📱 Написать в Telegram
+    </a>
+    <a href="mailto:ваш_email@example.com" class="contact-btn email">
+      ✉️ Отправить на почту
+    </a>
+  </div>
+</div>

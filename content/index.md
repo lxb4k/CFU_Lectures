@@ -1,7 +1,8 @@
 ---
 title: Физтех | ПИ
 ---
-Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): **ПИ-б-о-262** · ПИ-б-о-261
+
+Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): **ПИ-б-о-262** · **ПИ-б-о-261**
 
 <!-- CSS СТИЛИ -->
 <style>
@@ -10,6 +11,7 @@ title: Физтех | ПИ
     flex-wrap: wrap;
     gap: 15px;
     margin: 1.2rem 0;
+    align-items: center;
   }
 
   .toggle-group {
@@ -25,7 +27,7 @@ title: Физтех | ПИ
     margin-right: 4px;
   }
 
-  .week-btn, .group-btn {
+  .week-btn, .group-btn, .ics-btn {
     background: var(--lightbg);
     color: var(--gray);
     border: 1px solid var(--lightgray);
@@ -46,6 +48,19 @@ title: Физтех | ПИ
     background: var(--secondary);
     color: #ffffff;
     border-color: var(--secondary);
+  }
+
+  .ics-btn {
+    color: var(--secondary);
+    border-color: var(--secondary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .ics-btn:hover {
+    background: var(--secondary);
+    color: #ffffff;
   }
 
   .schedule-block {
@@ -74,7 +89,7 @@ title: Физтех | ПИ
     box-sizing: border-box;
   }
 
-  /* МОБИЛЬНАЯ ВЕРСИЯ: Традиционный вертикальный список */
+  /* МОБИЛЬНАЯ ВЕРСИЯ: Вертикальный список */
   @media (max-width: 768px) {
     .schedule-block.active {
       flex-direction: column;
@@ -88,7 +103,7 @@ title: Физтех | ПИ
     }
   }
 
-  /* Стилизация полосы прокрутки для ПК */
+  /* Стилизация полосы прокрутки */
   .schedule-block.active::-webkit-scrollbar {
     height: 6px;
   }
@@ -168,7 +183,7 @@ title: Физтех | ПИ
     padding: 12px 0;
   }
 
-  /* Аккуратный минималистичный блок об авторе */
+  /* Блок контактов */
   .contact-box {
     margin-top: 2rem;
     padding: 12px 16px;
@@ -207,7 +222,7 @@ title: Физтех | ПИ
   }
 </style>
 
-<!-- ПЕРЕКЛЮЧАТЕЛИ -->
+<!-- ПЕРЕКЛЮЧАТЕЛИ И КНОПКА СКАЧИВАНИЯ ICS -->
 <div class="controls-wrapper">
   <div class="toggle-group">
     <span class="toggle-label">Группа:</span>
@@ -220,6 +235,8 @@ title: Физтех | ПИ
     <button class="week-btn active" onclick="setWeek('a', this)">Неделя А</button>
     <button class="week-btn" onclick="setWeek('b', this)">Неделя Б</button>
   </div>
+
+  <button class="ics-btn" onclick="downloadStaticICS()">📅 Скачать .ics</button>
 </div>
 
 <!-- ================= ПИ-262 / НЕДЕЛЯ А ================= -->
@@ -317,41 +334,31 @@ title: Физтех | ПИ
     <div class="lesson-card">
       <div class="lesson-time">11:30</div>
       <div class="lesson-name">История России</div>
-      <span class="lesson-room">ОК-322А</span>
+      <span class="lesson-room">ОК-323А</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">13:20</div>
       <div class="lesson-name">Информатика и основы программирования</div>
-      <span class="lesson-room">ОК-322А</span>
+      <span class="lesson-room">ОК-323А</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">15:00</div>
       <div class="lesson-name">Структуры и алгоритмы обработки данных</div>
       <span class="lesson-room">ОК-323А</span>
     </div>
-    <div class="lesson-card">
-      <div class="lesson-time">16:40</div>
-      <div class="lesson-name">Иностранный язык п2</div>
-      <span class="lesson-room">ПЗ-531Б</span>
-    </div>
   </div>
 
   <div class="day-column">
     <div class="day-header">Вт</div>
     <div class="lesson-card">
-      <div class="lesson-time">8:00</div>
-      <div class="lesson-name">Проектная деятельность</div>
-      <span class="lesson-room">ПЗ-3184</span>
-    </div>
-    <div class="lesson-card">
       <div class="lesson-time">9:50</div>
       <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">СК-322А</span>
+      <span class="lesson-room">СК-302А</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">11:30</div>
       <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">ОК-303б</span>
+      <span class="lesson-room">ОК-323А</span>
     </div>
   </div>
 
@@ -359,18 +366,18 @@ title: Физтех | ПИ
     <div class="day-header">Ср</div>
     <div class="lesson-card">
       <div class="lesson-time">8:00</div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">ПЗ-2114</span>
+      <div class="lesson-name">Иностранный язык</div>
+      <span class="lesson-room">ПЗ-525Б</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">9:50</div>
-      <div class="lesson-name">История России</div>
-      <span class="lesson-room">ПЗ-3028</span>
+      <div class="lesson-name">Высшая математика</div>
+      <span class="lesson-room">ПЗ-211F</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">11:30</div>
-      <div class="lesson-name">Иностранный язык п1</div>
-      <span class="lesson-room">ПЗ-500Б</span>
+      <div class="lesson-name">История России</div>
+      <span class="lesson-room">ПЗ-302В</span>
     </div>
   </div>
 
@@ -381,43 +388,28 @@ title: Физтех | ПИ
       <div class="lesson-name">Физическая культура</div>
       <span class="lesson-room">ПЗ-спортзал</span>
     </div>
-    <div class="lesson-card">
-      <div class="lesson-time">11:30</div>
-      <div class="lesson-name">Информатика и основы программирования п1</div>
-      <span class="lesson-room">ПЗ-1194/2ОК</span>
-    </div>
-    <div class="lesson-card">
-      <div class="lesson-time">13:20</div>
-      <div class="lesson-name">Информатика и основы программирования п2</div>
-      <span class="lesson-room">ПЗ-1194/2ОК</span>
-    </div>
   </div>
 
   <div class="day-column">
     <div class="day-header">Пт</div>
     <div class="lesson-card">
-      <div class="lesson-time">11:30</div>
+      <div class="lesson-time">15:00</div>
       <div class="lesson-name">Алгоритмизация и программирование п1</div>
-      <span class="lesson-room">ПЗ-8А</span>
+      <span class="lesson-room">117А</span>
     </div>
     <div class="lesson-card">
-      <div class="lesson-time">13:20</div>
-      <div class="lesson-name">Алгоритмизация и программирование п2</div>
-      <span class="lesson-room">ПЗ-8А</span>
+      <div class="lesson-time">16:40</div>
+      <div class="lesson-name">Информатика и основы программирования</div>
+      <span class="lesson-room">119А</span>
     </div>
   </div>
 
   <div class="day-column">
     <div class="day-header">Сб</div>
     <div class="lesson-card">
-      <div class="lesson-time">9:50</div>
+      <div class="lesson-time">13:20</div>
       <div class="lesson-name">Структуры и алгоритмы обработки данных п1</div>
-      <span class="lesson-room">ПЗ-3084</span>
-    </div>
-    <div class="lesson-card">
-      <div class="lesson-time">11:30</div>
-      <div class="lesson-name">Структуры и алгоритмы обработки данных п2</div>
-      <span class="lesson-room">ПЗ-3084</span>
+      <span class="lesson-room">ПЗ-308F</span>
     </div>
   </div>
 </div>
@@ -436,6 +428,16 @@ title: Физтех | ПИ
       <div class="lesson-name">Русский язык как государственный</div>
       <span class="lesson-room">323А</span>
     </div>
+    <div class="lesson-card">
+      <div class="lesson-time">15:00 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Русский язык как государственный</div>
+      <span class="lesson-room">411В</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">16:40 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Иностранный язык (п/гр 2)</div>
+      <span class="lesson-room">521Б</span>
+    </div>
   </div>
 
   <div class="day-column">
@@ -450,20 +452,10 @@ title: Физтех | ПИ
       <div class="lesson-name">Высшая математика</div>
       <span class="lesson-room">323А</span>
     </div>
-    <div class="lesson-card">
-      <div class="lesson-time">13:20 <span class="lesson-type">ПЗ</span></div>
-      <div class="lesson-name">Проектная деятельность</div>
-      <span class="lesson-room">315А</span>
-    </div>
   </div>
 
   <div class="day-column">
     <div class="day-header">Ср</div>
-    <div class="lesson-card">
-      <div class="lesson-time">8:00 <span class="lesson-type">ПЗ</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">211А</span>
-    </div>
     <div class="lesson-card">
       <div class="lesson-time">9:50 <span class="lesson-type">ПЗ</span></div>
       <div class="lesson-name">История России</div>
@@ -471,8 +463,13 @@ title: Физтех | ПИ
     </div>
     <div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
-      <div class="lesson-name">Иностранный язык</div>
-      <span class="lesson-room">531Б</span>
+      <div class="lesson-name">Иностранный язык (п/гр 1)</div>
+      <span class="lesson-room">211АВ</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">13:20 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Высшая математика</div>
+      <span class="lesson-room">211А</span>
     </div>
   </div>
 
@@ -489,13 +486,23 @@ title: Физтех | ПИ
     <div class="day-header">Пт</div>
     <div class="lesson-card">
       <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
-      <div class="lesson-name">Информатика и основы программирования</div>
+      <div class="lesson-name">Информатика и основы программирования (п/гр 1)</div>
       <span class="lesson-room">119А</span>
     </div>
     <div class="lesson-card">
       <div class="lesson-time">13:20 <span class="lesson-type">ПЗ</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">117А</span>
+      <div class="lesson-name">Информатика и основы программирования (п/гр 2)</div>
+      <span class="lesson-room">119А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">11:30 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Алгоритмизация и программирование (п/гр 1)</div>
+      <span class="lesson-room">119А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">13:20 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Алгоритмизация и программирование (п/гр 2)</div>
+      <span class="lesson-room">119А</span>
     </div>
   </div>
 
@@ -519,6 +526,16 @@ title: Физтех | ПИ
       <div class="lesson-name">Информатика и основы программирования</div>
       <span class="lesson-room">ОК-322А</span>
     </div>
+    <div class="lesson-card">
+      <div class="lesson-time">15:00 <span class="lesson-type">ЛК</span></div>
+      <div class="lesson-name">Структуры и алгоритмы обработки данных</div>
+      <span class="lesson-room">323А</span>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-time">16:40 <span class="lesson-type">ПЗ</span></div>
+      <div class="lesson-name">Иностранный язык (п/гр 2)</div>
+      <span class="lesson-room">531Б</span>
+    </div>
   </div>
 
   <div class="day-column">
@@ -568,7 +585,7 @@ title: Физтех | ПИ
   </div>
 </div>
 
-<!-- АККУРАТНЫЙ БЛОК ОБ АВТОРЕ -->
+<!-- БЛОК ОБ АВТОРЕ -->
 <div class="contact-box">
   <span class="contact-text">Заметили ошибку в расписании или есть предложения?</span>
   <a href="https://t.me/lxb4k" target="_blank" class="contact-btn">
@@ -576,10 +593,15 @@ title: Физтех | ПИ
   </a>
 </div>
 
-<!-- СКРИПТ ПЕРЕКЛЮЧЕНИЯ ГРУПП И НЕДЕЛЬ -->
+<!-- СКРИПТ ПЕРЕКЛЮЧЕНИЯ И СКАЧИВАНИЯ ICS -->
 <script>
   let currentGroup = '262';
   let currentWeek = 'a';
+
+  const icsFiles = {
+    '261': '/files/pi-261.ics',
+    '262': '/files/pi-262.ics'
+  };
 
   function updateDisplay() {
     document.querySelectorAll('.schedule-block').forEach(el => el.classList.remove('active'));
@@ -602,5 +624,17 @@ title: Физтех | ПИ
     btn.parentElement.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     updateDisplay();
+  }
+
+  function downloadStaticICS() {
+    const filePath = icsFiles[currentGroup];
+    if (filePath) {
+      const link = document.createElement('a');
+      link.href = filePath;
+      link.download = `ПИ-б-о-${currentGroup}.ics`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 </script>

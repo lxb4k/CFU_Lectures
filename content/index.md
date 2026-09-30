@@ -333,7 +333,7 @@ title: Физтех | ПИ
     <div class="day-header">Пн</div>
     <div class="lesson-card">
       <div class="lesson-time">11:30</div>
-      <div class="lesson-name">История России</div>
+      <div class="lesson-name">ИстоАААААААААААААрия России</div>
       <span class="lesson-room">ОК-323А</span>
     </div>
     <div class="lesson-card">

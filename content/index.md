@@ -7,23 +7,24 @@ title: Физтех | ПИ
 Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): **ПИ-б-о-262** · **ПИ-б-о-261**
 
 <!-- CSS СТИЛИ -->
+<!-- CSS СТИЛИ -->
 <style>
   .controls-wrapper {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    margin: 1.2rem 0;
+    margin: 1.5rem 0;
     align-items: center;
   }
 
   .toggle-group {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
   }
 
   .toggle-label {
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: bold;
     color: var(--gray);
     margin-right: 4px;
@@ -33,11 +34,11 @@ title: Физтех | ПИ
     background: var(--lightbg);
     color: var(--gray);
     border: 1px solid var(--lightgray);
-    padding: 6px 14px;
-    border-radius: 6px;
+    padding: 8px 18px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     transition: all 0.2s ease;
   }
 
@@ -72,9 +73,9 @@ title: Физтех | ПИ
   /* ПК ВЕРСИЯ: 5 дней на экран + скролл для субботы */
   .schedule-block.active {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     overflow-x: auto;
-    padding-bottom: 10px;
+    padding-bottom: 12px;
     scroll-behavior: smooth;
     align-items: flex-start;
   }
@@ -82,12 +83,12 @@ title: Физтех | ПИ
   .day-column {
     background-color: var(--lightbg);
     border: 1px solid var(--lightgray);
-    border-radius: 8px;
-    padding: 8px;
+    border-radius: 10px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    min-width: calc((100% - 32px) / 5);
-    flex: 0 0 calc((100% - 32px) / 5);
+    min-width: calc((100% - 48px) / 5);
+    flex: 0 0 calc((100% - 48px) / 5);
     box-sizing: border-box;
   }
 
@@ -107,7 +108,7 @@ title: Физтех | ПИ
 
   /* Стилизация полосы прокрутки */
   .schedule-block.active::-webkit-scrollbar {
-    height: 6px;
+    height: 8px;
   }
 
   .schedule-block.active::-webkit-scrollbar-track {
@@ -126,20 +127,20 @@ title: Физтех | ПИ
 
   .day-header {
     font-weight: bold;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     color: var(--secondary);
     border-bottom: 2px solid var(--tertiary);
-    padding-bottom: 4px;
-    margin-bottom: 8px;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
     text-align: center;
   }
 
   .lesson-card {
     background-color: var(--highlight);
-    border-left: 3px solid var(--secondary);
-    border-radius: 4px;
-    padding: 6px 8px;
-    margin-bottom: 8px;
+    border-left: 4px solid var(--secondary);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
   }
 
   .lesson-card:last-child {
@@ -147,51 +148,52 @@ title: Физтех | ПИ
   }
 
   .lesson-time {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--tertiary);
-    margin-bottom: 2px;
-  }
-
-  .lesson-type {
-    font-size: 0.65rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-left: 2px;
-  }
-
-  .lesson-name {
-    font-size: 0.8rem;
-    line-height: 1.2;
-    color: var(--dark);
     margin-bottom: 4px;
   }
 
+  .lesson-type {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-left: 4px;
+  }
+
+  .lesson-name {
+    font-size: 0.95rem;
+    line-height: 1.3;
+    color: var(--dark);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
   .lesson-room {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     display: inline-block;
     background-color: var(--lightgray);
     color: var(--gray);
-    padding: 1px 4px;
-    border-radius: 3px;
+    padding: 2px 6px;
+    border-radius: 4px;
     font-family: monospace;
   }
 
   .no-lessons {
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     color: var(--gray);
     text-align: center;
-    padding: 12px 0;
+    padding: 16px 0;
   }
 
   /* Блок контактов */
   .contact-box {
     margin-top: 2rem;
-    padding: 12px 16px;
+    padding: 14px 18px;
     background-color: var(--lightbg);
     border: 1px solid var(--lightgray);
-    border-radius: 6px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -200,7 +202,7 @@ title: Физтех | ПИ
   }
 
   .contact-text {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: var(--gray);
     line-height: 1.3;
   }
@@ -209,9 +211,9 @@ title: Физтех | ПИ
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
-    border-radius: 5px;
-    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
     font-weight: 600;
     text-decoration: none !important;
     background-color: #2AABEE;

@@ -4,7 +4,6 @@ title: Физтех | ПИ
 
 ---
 
-<!-- Метатеги для PWA / Веб-приложения -->
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,16 +11,14 @@ title: Физтех | ПИ
 <meta name="theme-color" content="#2AABEE">
 <link rel="manifest" href='data:application/manifest+json,{"name":"Физтех ПИ Расписание","short_name":"Расписание","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#2AABEE"}'>
 
-Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): **ПИ-б-о-262** · **ПИ-б-о-261**[cite: 1]
+Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): **ПИ-б-о-262** · **ПИ-б-о-261**[cite: 2]
 
-<!-- CSS СТИЛИ -->
 <style>
-  /* Переключатель вкладок */
   .nav-tabs {
     display: flex;
     gap: 10px;
     margin-bottom: 1.2rem;
-    border-bottom: 2px solid var(--lightgray);
+    border-bottom: 2px solid var(--gray, #e5e7eb);
     padding-bottom: 8px;
   }
 
@@ -30,7 +27,7 @@ title: Физтех | ПИ
     border: none;
     font-size: 0.95rem;
     font-weight: 700;
-    color: var(--gray);
+    color: var(--gray, #6b7280);
     cursor: pointer;
     padding: 6px 14px;
     border-radius: 6px;
@@ -38,7 +35,7 @@ title: Физтех | ПИ
   }
 
   .nav-tab-btn.active {
-    background: var(--secondary);
+    background: var(--secondary, #2AABEE);
     color: #ffffff;
   }
 
@@ -50,23 +47,22 @@ title: Физтех | ПИ
     display: block;
   }
 
-  /* Заглушка В разработке */
   .study-stub {
     text-align: center;
     padding: 3rem 1rem;
-    background: var(--lightbg);
-    border: 2px dashed var(--lightgray);
+    background: var(--lightbg, #f9fafb);
+    border: 2px dashed var(--gray, #e5e7eb);
     border-radius: 8px;
     margin: 1.5rem 0;
   }
 
   .study-stub h3 {
     margin-bottom: 0.5rem;
-    color: var(--secondary);
+    color: var(--secondary, #2AABEE);
   }
 
   .study-stub p {
-    color: var(--gray);
+    color: var(--gray, #6b7280);
     font-size: 0.85rem;
   }
 
@@ -87,14 +83,14 @@ title: Физтех | ПИ
   .toggle-label {
     font-size: 0.85rem;
     font-weight: bold;
-    color: var(--gray);
+    color: var(--gray, #6b7280);
     margin-right: 4px;
   }
 
   .week-btn, .group-btn, .pwa-btn {
-    background: var(--lightbg);
-    color: var(--gray);
-    border: 1px solid var(--lightgray);
+    background: var(--lightbg, #f3f4f6);
+    color: var(--gray, #374151);
+    border: 1px solid var(--gray, #d1d5db);
     padding: 6px 14px;
     border-radius: 6px;
     cursor: pointer;
@@ -104,27 +100,27 @@ title: Физтех | ПИ
   }
 
   .week-btn:hover, .group-btn:hover, .pwa-btn:hover {
-    border-color: var(--secondary);
-    color: var(--secondary);
+    border-color: var(--secondary, #2AABEE);
+    color: var(--secondary, #2AABEE);
   }
 
   .week-btn.active, .group-btn.active {
-    background: var(--secondary);
+    background: var(--secondary, #2AABEE);
     color: #ffffff;
-    border-color: var(--secondary);
+    border-color: var(--secondary, #2AABEE);
   }
 
   .pwa-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: var(--lightbg);
-    color: var(--secondary);
-    border-color: var(--secondary);
+    background: var(--lightbg, #f3f4f6);
+    color: var(--secondary, #2AABEE);
+    border-color: var(--secondary, #2AABEE);
   }
 
   .pwa-btn:hover {
-    background: var(--secondary);
+    background: var(--secondary, #2AABEE);
     color: #ffffff;
   }
 
@@ -132,7 +128,6 @@ title: Физтех | ПИ
     display: none;
   }
 
-  /* ПК ВЕРСИЯ: 5 дней на экран + скролл для субботы */
   .schedule-block.active {
     display: flex;
     gap: 8px;
@@ -143,8 +138,8 @@ title: Физтех | ПИ
   }
 
   .day-column {
-    background-color: var(--lightbg);
-    border: 1px solid var(--lightgray);
+    background-color: var(--lightbg, #f9fafb);
+    border: 1px solid var(--gray, #e5e7eb);
     border-radius: 8px;
     padding: 8px;
     display: flex;
@@ -155,20 +150,18 @@ title: Физтех | ПИ
     transition: all 0.2s ease;
   }
 
-  /* Подсветка текущего дня */
   .day-column.today {
-    border: 2px solid var(--secondary);
+    border: 2px solid var(--secondary, #2AABEE);
     box-shadow: 0 0 8px rgba(42, 171, 238, 0.25);
   }
 
   .day-column.today .day-header {
-    background-color: var(--secondary);
+    background-color: var(--secondary, #2AABEE);
     color: #ffffff;
     border-radius: 4px;
     padding: 2px 0;
   }
 
-  /* МОБИЛЬНАЯ ВЕРСИЯ: Вертикальный список */
   @media (max-width: 768px) {
     .schedule-block.active {
       flex-direction: column;
@@ -182,45 +175,43 @@ title: Физтех | ПИ
     }
   }
 
-  /* Стилизация полосы прокрутки */
   .schedule-block.active::-webkit-scrollbar {
     height: 6px;
   }
 
   .schedule-block.active::-webkit-scrollbar-track {
-    background: var(--lightbg);
+    background: var(--lightbg, #f3f4f6);
     border-radius: 4px;
   }
 
   .schedule-block.active::-webkit-scrollbar-thumb {
-    background: var(--lightgray);
+    background: var(--gray, #d1d5db);
     border-radius: 4px;
   }
 
   .schedule-block.active::-webkit-scrollbar-thumb:hover {
-    background: var(--secondary);
+    background: var(--secondary, #2AABEE);
   }
 
   .day-header {
     font-weight: bold;
     font-size: 0.95rem;
-    color: var(--secondary);
-    border-bottom: 2px solid var(--tertiary);
+    color: var(--secondary, #2AABEE);
+    border-bottom: 2px solid var(--tertiary, #9ca3af);
     padding-bottom: 4px;
     margin-bottom: 8px;
     text-align: center;
   }
 
   .lesson-card {
-    background-color: var(--highlight);
-    border-left: 3px solid var(--secondary);
+    background-color: var(--highlight, #ffffff);
+    border-left: 3px solid var(--secondary, #2AABEE);
     border-radius: 4px;
     padding: 6px 8px;
     margin-bottom: 8px;
     transition: all 0.2s ease;
   }
 
-  /* Подсветка текущей пары */
   .lesson-card.active-lesson {
     border-left: 5px solid #ff9800;
     background-color: rgba(255, 152, 0, 0.15);
@@ -234,7 +225,7 @@ title: Физтех | ПИ
   .lesson-time {
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--tertiary);
+    color: var(--tertiary, #4b5563);
     margin-bottom: 2px;
   }
 
@@ -247,28 +238,22 @@ title: Физтех | ПИ
     padding: 0 6px;
     margin-left: 4px;
     border-radius: 999px;
-    border: 1px solid var(--lightgray);
-    color: var(--gray);
+    border: 1px solid var(--gray, #d1d5db);
+    color: var(--gray, #4b5563);
     vertical-align: middle;
   }
 
-  /* ЛК: синий цвет темы */
   .lesson-type.lk {
-    color: var(--secondary);
-    background: rgba(123, 151, 170, 0.16);
-    background: color-mix(in srgb, var(--secondary) 16%, transparent);
-    border-color: rgba(123, 151, 170, 0.5);
-    border-color: color-mix(in srgb, var(--secondary) 50%, transparent);
+    color: var(--secondary, #2AABEE);
+    background: rgba(42, 171, 238, 0.16);
+    border-color: rgba(42, 171, 238, 0.5);
   }
 
-  /* ПЗ: мягкий сиреневый */
   .lesson-type.pz {
     color: #6b5b95;
     background: rgba(155, 138, 196, 0.16);
     border-color: rgba(155, 138, 196, 0.5);
   }
-
-  :root[saved-theme="dark"] .lesson-type.pz { color: #b3a4dc; }
 
   .type-legend {
     display: flex;
@@ -276,7 +261,7 @@ title: Физтех | ПИ
     gap: 6px;
     flex-wrap: wrap;
     font-size: 0.78rem;
-    color: var(--gray);
+    color: var(--gray, #6b7280);
     margin: -0.4rem 0 1rem;
   }
 
@@ -287,15 +272,15 @@ title: Физтех | ПИ
   .lesson-name {
     font-size: 0.8rem;
     line-height: 1.2;
-    color: var(--dark);
+    color: var(--dark, #111827);
     margin-bottom: 4px;
   }
 
   .lesson-room {
     font-size: 0.7rem;
     display: inline-block;
-    background-color: var(--lightgray);
-    color: var(--gray);
+    background-color: var(--gray, #e5e7eb);
+    color: var(--gray, #374151);
     padding: 1px 4px;
     border-radius: 3px;
     font-family: monospace;
@@ -303,17 +288,16 @@ title: Физтех | ПИ
 
   .no-lessons {
     font-size: 0.8rem;
-    color: var(--gray);
+    color: var(--gray, #9ca3af);
     text-align: center;
     padding: 12px 0;
   }
 
-  /* Блок контактов */
   .contact-box {
     margin-top: 2rem;
     padding: 12px 16px;
-    background-color: var(--lightbg);
-    border: 1px solid var(--lightgray);
+    background-color: var(--lightbg, #f9fafb);
+    border: 1px solid var(--gray, #e5e7eb);
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -324,7 +308,7 @@ title: Физтех | ПИ
 
   .contact-text {
     font-size: 0.8rem;
-    color: var(--gray);
+    color: var(--gray, #4b5563);
     line-height: 1.3;
   }
 
@@ -347,16 +331,13 @@ title: Физтех | ПИ
   }
 </style>
 
-<!-- ВКЛАДКИ -->
 <div class="nav-tabs">
   <button class="nav-tab-btn active" onclick="switchTab('schedule', this)">Расписание</button>
   <button class="nav-tab-btn" onclick="switchTab('study', this)">Учёба <small style="font-size:0.7em; opacity:0.8;">(в разработке)</small></button>
 </div>
 
-<!-- ВКЛАДКА: РАСПИСАНИЕ -->
 <div id="tab-schedule" class="tab-content active">
 
-  <!-- ПЕРЕКЛЮЧАТЕЛИ И КНОПКА ДОБАВЛЕНИЯ НА ЭКРАН -->
   <div class="controls-wrapper">
     <div class="toggle-group">
       <span class="toggle-label">Группа:</span>
@@ -378,7 +359,7 @@ title: Физтех | ПИ
     <span class="lesson-type pz">ПЗ</span> практика
   </div>
 
-  <!-- ================= ПИ-262 / НЕДЕЛЯ А ================= -->
+  <!-- ПИ-262 / НЕДЕЛЯ А -->
   <div id="sched-262-a" class="schedule-block">
     <div class="day-column" data-day="1">
       <div class="day-header">Пн</div>
@@ -466,7 +447,7 @@ title: Физтех | ПИ
     </div>
   </div>
 
-  <!-- ================= ПИ-262 / НЕДЕЛЯ Б ================= -->
+  <!-- ПИ-262 / НЕДЕЛЯ Б -->
   <div id="sched-262-b" class="schedule-block">
     <div class="day-column" data-day="1">
       <div class="day-header">Пн</div>
@@ -553,7 +534,7 @@ title: Физтех | ПИ
     </div>
   </div>
 
-  <!-- ================= ПИ-261 / НЕДЕЛЯ А ================= -->
+  <!-- ПИ-261 / НЕДЕЛЯ А -->
   <div id="sched-261-a" class="schedule-block">
     <div class="day-column" data-day="1">
       <div class="day-header">Пн</div>
@@ -651,7 +632,7 @@ title: Физтех | ПИ
     </div>
   </div>
 
-  <!-- ================= ПИ-261 / НЕДЕЛЯ Б ================= -->
+  <!-- ПИ-261 / НЕДЕЛЯ Б -->
   <div id="sched-261-b" class="schedule-block">
     <div class="day-column" data-day="1">
       <div class="day-header">Пн</div>
@@ -765,7 +746,6 @@ title: Физтех | ПИ
 
 </div>
 
-<!-- ВКЛАДКА: УЧЁБА -->
 <div id="tab-study" class="tab-content">
   <div class="study-stub">
     <h3>📖 Раздел «Учёба»</h3>
@@ -773,119 +753,118 @@ title: Физтех | ПИ
   </div>
 </div>
 
-<!-- БЛОК ОБ АВТОРЕ -->
 <div class="contact-box">
-  <span class="contact-text">Заметили ошибку в расписании или есть предложения?</span>[cite: 1]
-  <a href="https://t.me/lxb4k" target="_blank" class="contact-btn">
+  <span class="contact-text">Заметили ошибку в расписании или есть предложения?</span>[cite: 2]
+  <a href="https://t.me/lxb4k" target="_blank" rel="noopener noreferrer" class="contact-btn">
     Telegram
-  </a>[cite: 1]
+  </a>[cite: 2]
 </div>
 
-<!-- СКРИПТЫ -->
 <script>
-  let currentGroup = localStorage.getItem('userGroup') || '262';
-  let currentWeek = getAutoWeek();
-  let deferredPrompt = null;
+  (function initSchedule() {
+    let currentGroup = localStorage.getItem('userGroup') || '262';
+    let currentWeek = getAutoWeek();
+    let deferredPrompt = null;
 
-  // Автоопределение недели А/Б
-  function getAutoWeek() {
-    const now = new Date();
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-    const weekNumber = Math.ceil((((now - startOfYear) / 86400000) + startOfYear.getDay() + 1) / 7);
-    return (weekNumber % 2 === 0) ? 'b' : 'a';
-  }
-
-  // Переключение вкладок
-  function switchTab(tabName, btn) {
-    document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-    btn.classList.add('active');
-    document.getElementById(`tab-${tabName}`).classList.add('active');
-  }
-
-  // Обновление отображения
-  function updateDisplay() {
-    document.querySelectorAll('.schedule-block').forEach(el => el.classList.remove('active'));
-
-    document.querySelectorAll('.group-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.group === currentGroup);
-    });
-
-    document.querySelectorAll('.week-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.week === currentWeek);
-    });
-
-    const targetId = `sched-${currentGroup}-${currentWeek}`;
-    const target = document.getElementById(targetId);
-    if (target) {
-      target.classList.add('active');
-      highlightTodayAndLesson(target);
+    function getAutoWeek() {
+      const now = new Date();
+      const startOfYear = new Date(now.getFullYear(), 0, 1);
+      const weekNumber = Math.ceil((((now - startOfYear) / 86400000) + startOfYear.getDay() + 1) / 7);
+      return (weekNumber % 2 === 0) ? 'b' : 'a';
     }
-  }
 
-  function setGroup(group, btn) {
-    currentGroup = group;
-    localStorage.setItem('userGroup', group);
-    updateDisplay();
-  }
+    window.switchTab = function(tabName, btn) {
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-  function setWeek(week, btn) {
-    currentWeek = week;
-    updateDisplay();
-  }
+      if (btn) btn.classList.add('active');
+      const targetTab = document.getElementById(`tab-${tabName}`);
+      if (targetTab) targetTab.classList.add('active');
+    };
 
-  // Подсветка текущего дня и текущей пары
-  function highlightTodayAndLesson(container) {
-    const now = new Date();
-    const dayOfWeek = now.getDay(); // 0 - Вс, 1 - Пн... 6 - Сб
-    const currentMins = now.getHours() * 60 + now.getMinutes();
+    function updateDisplay() {
+      document.querySelectorAll('.schedule-block').forEach(el => el.classList.remove('active'));
 
-    container.querySelectorAll('.day-column').forEach(c => c.classList.remove('today'));
-    container.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active-lesson'));
-
-    if (dayOfWeek === 0) return; // В воскресенье расписания нет
-
-    const todayCol = container.querySelector(`.day-column[data-day="${dayOfWeek}"]`);
-    if (todayCol) {
-      todayCol.classList.add('today');
-
-      // Автопрокрутка к текущему дню
-      todayCol.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-
-      // Подсветка пары по времени
-      todayCol.querySelectorAll('.lesson-card').forEach(card => {
-        const start = card.getAttribute('data-start');
-        const end = card.getAttribute('data-end');
-
-        if (start && end) {
-          const [sH, sM] = start.split(':').map(Number);
-          const [eH, eM] = end.split(':').map(Number);
-          const startMins = sH * 60 + sM;
-          const endMins = eH * 60 + eM;
-
-          if (currentMins >= startMins && currentMins <= endMins) {
-            card.classList.add('active-lesson');
-          }
-        }
+      document.querySelectorAll('.group-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.group === currentGroup);
       });
+
+      document.querySelectorAll('.week-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.week === currentWeek);
+      });
+
+      const targetId = `sched-${currentGroup}-${currentWeek}`;
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.classList.add('active');
+        highlightTodayAndLesson(target);
+      }
     }
-  }
 
-  // PWA Установка
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-  });
+    window.setGroup = function(group) {
+      currentGroup = group;
+      localStorage.setItem('userGroup', group);
+      updateDisplay();
+    };
 
-  function installPWA() {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+    window.setWeek = function(week) {
+      currentWeek = week;
+      updateDisplay();
+    };
+
+    function highlightTodayAndLesson(container) {
+      const now = new Date();
+      const dayOfWeek = now.getDay();
+      const currentMins = now.getHours() * 60 + now.getMinutes();
+
+      container.querySelectorAll('.day-column').forEach(c => c.classList.remove('today'));
+      container.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active-lesson'));
+
+      if (dayOfWeek === 0) return;
+
+      const todayCol = container.querySelector(`.day-column[data-day="${dayOfWeek}"]`);
+      if (todayCol) {
+        todayCol.classList.add('today');
+        todayCol.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+        todayCol.querySelectorAll('.lesson-card').forEach(card => {
+          const start = card.getAttribute('data-start');
+          const end = card.getAttribute('data-end');
+
+          if (start && end) {
+            const [sH, sM] = start.split(':').map(Number);
+            const [eH, eM] = end.split(':').map(Number);
+            const startMins = sH * 60 + sM;
+            const endMins = eH * 60 + eM;
+
+            if (currentMins >= startMins && currentMins <= endMins) {
+              card.classList.add('active-lesson');
+            }
+          }
+        });
+      }
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    window.installPWA = function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+      } else {
+        alert('Инструкция по установке:\n\n• iOS (Safari): Нажмите «Поделиться» -> «На экран «Домой»»\n• Android (Chrome): Откройте меню браузера (3 точки) -> «Добавить на главный экран»');
+      }
+    };
+
+    // Поддержка клиентов и Quartz SPA навигации
+    document.addEventListener('nav', updateDisplay);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateDisplay);
     } else {
-      alert('Инструкция по установке:\n\n• iOS (Safari): Нажмите «Поделиться» -> «На экран «Домой»»\n• Android (Chrome): Откройте меню браузера (3 точки) -> «Добавить на главный экран»');
+      updateDisplay();
     }
-  }
-
-  document.addEventListener('DOMContentLoaded', updateDisplay);
+  })();
 </script>

@@ -2,10 +2,6 @@
 title: Физтех | ПИ
 ---
 
-Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): **ПИ-б-о-262** · **ПИ-б-о-261**
-
-Ещё: [[Учёба/index|Учёба]] (в разработке)
-
 <div class="next-box" id="next-box"></div>
 
 <!-- CSS СТИЛИ -->
@@ -378,24 +374,75 @@ title: Физтех | ПИ
       order: -1;
     }
   }
+
+  .nb-tag {
+    margin-right: 0.6em;
+    min-width: 0;
+  }
+
+  .controls-wrapper .short {
+    display: none;
+  }
+
+  /* Телефон: расписание должно быть видно сразу, без прокрутки */
+  @media (max-width: 768px) {
+    .content-meta {
+      display: none !important;
+    }
+
+    h1.article-title {
+      font-size: 1.5rem;
+      margin: 0.3rem 0 0.2rem;
+    }
+
+    .next-box {
+      margin: 0.5rem 0;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+    }
+
+    .nb-title {
+      display: none;
+    }
+
+    .controls-wrapper {
+      gap: 8px;
+      margin: 0.6rem 0;
+    }
+
+    .controls-wrapper .toggle-label,
+    .controls-wrapper .full {
+      display: none;
+    }
+
+    .controls-wrapper .short {
+      display: inline;
+    }
+
+    .controls-wrapper .toggle-group {
+      gap: 4px;
+    }
+
+    .type-legend {
+      display: none;
+    }
+  }
 </style>
 
 <!-- ПЕРЕКЛЮЧАТЕЛИ, КАЛЕНДАРЬ И УСТАНОВКА -->
 <div class="controls-wrapper">
   <div class="toggle-group">
     <span class="toggle-label">Моя группа:</span>
-    <button class="group-btn active" data-group="262" onclick="setGroup('262', this)">ПИ-б-о-262</button>
-    <button class="group-btn" data-group="261" onclick="setGroup('261', this)">ПИ-б-о-261</button>
+    <button class="group-btn active" data-group="262" onclick="setGroup('262', this)"><span class="full">ПИ-б-о-</span>262</button>
+    <button class="group-btn" data-group="261" onclick="setGroup('261', this)"><span class="full">ПИ-б-о-</span>261</button>
   </div>
-
   <div class="toggle-group">
     <span class="toggle-label">Неделя:</span>
-    <button class="week-btn active" data-week="a" onclick="setWeek('a', this)">Неделя А</button>
-    <button class="week-btn" data-week="b" onclick="setWeek('b', this)">Неделя Б</button>
+    <button class="week-btn active" data-week="a" onclick="setWeek('a', this)"><span class="full">Неделя </span>А</button>
+    <button class="week-btn" data-week="b" onclick="setWeek('b', this)"><span class="full">Неделя </span>Б</button>
   </div>
-
-  <button class="ics-btn" onclick="downloadStaticICS()">В календарь (.ics)</button>
-  <button class="ics-btn" id="install-btn" style="display:none" onclick="installApp()">Установить приложение</button>
+  <button class="ics-btn" onclick="downloadStaticICS()"><span class="full">В календарь (.ics)</span><span class="short">ICS</span></button>
+  <button class="ics-btn" id="install-btn" style="display:none" onclick="installApp()"><span class="full">Установить приложение</span><span class="short">Установить</span></button>
 </div>
 
 <div class="install-hint" id="ios-hint" style="display:none">Чтобы добавить на экран «Домой»: в Safari нажми «Поделиться» и выбери «На экран „Домой“».</div>
@@ -769,6 +816,10 @@ title: Физтех | ПИ
     </div>
   </div>
 </div>
+
+Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): [ПИ-б-о-262](https://cfuv.ru/raspisanie/#g=%D0%9F%D0%98-%D0%B1-%D0%BE-262) · [ПИ-б-о-261](https://cfuv.ru/raspisanie/#g=%D0%9F%D0%98-%D0%B1-%D0%BE-261)
+
+Ещё: [[Учёба/index|Учёба]] (в разработке)
 
 <!-- БЛОК ОБ АВТОРЕ -->
 <div class="contact-box">

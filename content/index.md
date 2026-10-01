@@ -12,18 +12,18 @@ title: Физтех | ПИ
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    margin: 1.5rem 0;
+    margin: 1.2rem 0;
     align-items: center;
   }
 
   .toggle-group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
 
   .toggle-label {
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: bold;
     color: var(--gray);
     margin-right: 4px;
@@ -33,11 +33,11 @@ title: Физтех | ПИ
     background: var(--lightbg);
     color: var(--gray);
     border: 1px solid var(--lightgray);
-    padding: 8px 18px;
-    border-radius: 8px;
+    padding: 6px 14px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     transition: all 0.2s ease;
   }
 
@@ -69,7 +69,7 @@ title: Физтех | ПИ
     display: none;
   }
 
-  /* ПК ВЕРСИЯ: Все 6 дней на экран, как было изначально */
+  /* ПК ВЕРСИЯ: 5 дней на экран + скролл для субботы */
   .schedule-block.active {
     display: flex;
     gap: 8px;
@@ -82,12 +82,12 @@ title: Физтех | ПИ
   .day-column {
     background-color: var(--lightbg);
     border: 1px solid var(--lightgray);
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: 8px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
-    min-width: calc((100% - 40px) / 6);
-    flex: 0 0 calc((100% - 40px) / 6);
+    min-width: calc((100% - 32px) / 5);
+    flex: 0 0 calc((100% - 32px) / 5);
     box-sizing: border-box;
   }
 
@@ -126,19 +126,19 @@ title: Физтех | ПИ
 
   .day-header {
     font-weight: bold;
-    font-size: 1.15rem;
+    font-size: 0.95rem;
     color: var(--secondary);
     border-bottom: 2px solid var(--tertiary);
-    padding-bottom: 6px;
-    margin-bottom: 10px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
     text-align: center;
   }
 
   .lesson-card {
     background-color: var(--highlight);
-    border-left: 4px solid var(--secondary);
-    border-radius: 6px;
-    padding: 8px 10px;
+    border-left: 3px solid var(--secondary);
+    border-radius: 4px;
+    padding: 6px 8px;
     margin-bottom: 8px;
   }
 
@@ -147,52 +147,51 @@ title: Физтех | ПИ
   }
 
   .lesson-time {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 700;
     color: var(--tertiary);
-    margin-bottom: 3px;
+    margin-bottom: 2px;
   }
 
   .lesson-type {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--gray);
-    margin-left: 3px;
+    margin-left: 2px;
   }
 
   .lesson-name {
-    font-size: 0.9rem;
-    line-height: 1.25;
+    font-size: 0.8rem;
+    line-height: 1.2;
     color: var(--dark);
-    margin-bottom: 5px;
-    font-weight: 500;
+    margin-bottom: 4px;
   }
 
   .lesson-room {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     display: inline-block;
     background-color: var(--lightgray);
     color: var(--gray);
-    padding: 2px 5px;
-    border-radius: 4px;
+    padding: 1px 4px;
+    border-radius: 3px;
     font-family: monospace;
   }
 
   .no-lessons {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--gray);
     text-align: center;
-    padding: 16px 0;
+    padding: 12px 0;
   }
 
   /* Блок контактов */
   .contact-box {
     margin-top: 2rem;
-    padding: 14px 18px;
+    padding: 12px 16px;
     background-color: var(--lightbg);
     border: 1px solid var(--lightgray);
-    border-radius: 8px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -201,7 +200,7 @@ title: Физтех | ПИ
   }
 
   .contact-text {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--gray);
     line-height: 1.3;
   }
@@ -210,9 +209,9 @@ title: Физтех | ПИ
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-size: 0.9rem;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 0.8rem;
     font-weight: 600;
     text-decoration: none !important;
     background-color: #2AABEE;

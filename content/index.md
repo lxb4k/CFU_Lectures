@@ -167,28 +167,23 @@ title: Физтех | ПИ
     vertical-align: middle;
   }
 
-  /* ЛК: бирюзовый (tertiary темы) */
+  /* ЛК: синий цвет темы */
   .lesson-type.lk {
-    color: color-mix(in srgb, var(--tertiary) 65%, black);
-    background: rgba(132, 165, 157, 0.18);
-    background: color-mix(in srgb, var(--tertiary) 18%, transparent);
-    border-color: rgba(132, 165, 157, 0.55);
-    border-color: color-mix(in srgb, var(--tertiary) 55%, transparent);
+    color: var(--secondary);
+    background: rgba(123, 151, 170, 0.16);
+    background: color-mix(in srgb, var(--secondary) 16%, transparent);
+    border-color: rgba(123, 151, 170, 0.5);
+    border-color: color-mix(in srgb, var(--secondary) 50%, transparent);
   }
 
-  /* ПЗ: приглушённый янтарный */
+  /* ПЗ: мягкий сиреневый */
   .lesson-type.pz {
-    color: #8a5a00;
-    background: rgba(214, 158, 46, 0.16);
-    border-color: rgba(214, 158, 46, 0.5);
+    color: #6b5b95;
+    background: rgba(155, 138, 196, 0.16);
+    border-color: rgba(155, 138, 196, 0.5);
   }
 
-  :root[saved-theme="dark"] .lesson-type.lk { color: var(--tertiary); }
-  :root[saved-theme="dark"] .lesson-type.pz { color: #e0b15f; }
-
-  /* Цветная полоска карточки по типу пары */
-  .lesson-card.lk { border-left-color: var(--tertiary); }
-  .lesson-card.pz { border-left-color: #d69e2e; }
+  :root[saved-theme="dark"] .lesson-type.pz { color: #b3a4dc; }
 
   .type-legend {
     display: flex;

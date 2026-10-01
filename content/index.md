@@ -1,13 +1,75 @@
 ---
 title: Физтех | ПИ
 ---
+
 ---
 
+<!-- Метатеги для PWA / Веб-приложения -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Расписание ПИ">
+<meta name="theme-color" content="#2AABEE">
+<link rel="manifest" href='data:application/manifest+json,{"name":"Физтех ПИ Расписание","short_name":"Расписание","start_url":".","display":"standalone","background_color":"#ffffff","theme_color":"#2AABEE"}'>
 
-Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): **ПИ-б-о-262** · **ПИ-б-о-261**
+Официальное расписание на [cfuv.ru](https://cfuv.ru/raspisanie/): **ПИ-б-о-262** · **ПИ-б-о-261**[cite: 1]
 
 <!-- CSS СТИЛИ -->
 <style>
+  /* Переключатель вкладок */
+  .nav-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.2rem;
+    border-bottom: 2px solid var(--lightgray);
+    padding-bottom: 8px;
+  }
+
+  .nav-tab-btn {
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--gray);
+    cursor: pointer;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .nav-tab-btn.active {
+    background: var(--secondary);
+    color: #ffffff;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  /* Заглушка В разработке */
+  .study-stub {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: var(--lightbg);
+    border: 2px dashed var(--lightgray);
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+
+  .study-stub h3 {
+    margin-bottom: 0.5rem;
+    color: var(--secondary);
+  }
+
+  .study-stub p {
+    color: var(--gray);
+    font-size: 0.85rem;
+  }
+
   .controls-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -29,7 +91,7 @@ title: Физтех | ПИ
     margin-right: 4px;
   }
 
-  .week-btn, .group-btn, .ics-btn {
+  .week-btn, .group-btn, .pwa-btn {
     background: var(--lightbg);
     color: var(--gray);
     border: 1px solid var(--lightgray);
@@ -41,7 +103,7 @@ title: Физтех | ПИ
     transition: all 0.2s ease;
   }
 
-  .week-btn:hover, .group-btn:hover {
+  .week-btn:hover, .group-btn:hover, .pwa-btn:hover {
     border-color: var(--secondary);
     color: var(--secondary);
   }
@@ -52,15 +114,16 @@ title: Физтех | ПИ
     border-color: var(--secondary);
   }
 
-  .ics-btn {
-    color: var(--secondary);
-    border-color: var(--secondary);
-    text-decoration: none;
+  .pwa-btn {
     display: inline-flex;
     align-items: center;
+    gap: 6px;
+    background: var(--lightbg);
+    color: var(--secondary);
+    border-color: var(--secondary);
   }
 
-  .ics-btn:hover {
+  .pwa-btn:hover {
     background: var(--secondary);
     color: #ffffff;
   }
@@ -89,6 +152,20 @@ title: Физтех | ПИ
     min-width: calc((100% - 32px) / 5);
     flex: 0 0 calc((100% - 32px) / 5);
     box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  /* Подсветка текущего дня */
+  .day-column.today {
+    border: 2px solid var(--secondary);
+    box-shadow: 0 0 8px rgba(42, 171, 238, 0.25);
+  }
+
+  .day-column.today .day-header {
+    background-color: var(--secondary);
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 2px 0;
   }
 
   /* МОБИЛЬНАЯ ВЕРСИЯ: Вертикальный список */
@@ -140,6 +217,14 @@ title: Физтех | ПИ
     border-radius: 4px;
     padding: 6px 8px;
     margin-bottom: 8px;
+    transition: all 0.2s ease;
+  }
+
+  /* Подсветка текущей пары */
+  .lesson-card.active-lesson {
+    border-left: 5px solid #ff9800;
+    background-color: rgba(255, 152, 0, 0.15);
+    box-shadow: 0 0 6px rgba(255, 152, 0, 0.3);
   }
 
   .lesson-card:last-child {
@@ -262,462 +347,545 @@ title: Физтех | ПИ
   }
 </style>
 
-<!-- ПЕРЕКЛЮЧАТЕЛИ И КНОПКА СКАЧИВАНИЯ ICS -->
-<div class="controls-wrapper">
-  <div class="toggle-group">
-    <span class="toggle-label">Группа:</span>
-    <button class="group-btn active" onclick="setGroup('262', this)">ПИ-б-о-262</button>
-    <button class="group-btn" onclick="setGroup('261', this)">ПИ-б-о-261</button>
+<!-- ВКЛАДКИ -->
+<div class="nav-tabs">
+  <button class="nav-tab-btn active" onclick="switchTab('schedule', this)">Расписание</button>
+  <button class="nav-tab-btn" onclick="switchTab('study', this)">Учёба <small style="font-size:0.7em; opacity:0.8;">(в разработке)</small></button>
+</div>
+
+<!-- ВКЛАДКА: РАСПИСАНИЕ -->
+<div id="tab-schedule" class="tab-content active">
+
+  <!-- ПЕРЕКЛЮЧАТЕЛИ И КНОПКА ДОБАВЛЕНИЯ НА ЭКРАН -->
+  <div class="controls-wrapper">
+    <div class="toggle-group">
+      <span class="toggle-label">Группа:</span>
+      <button class="group-btn" data-group="262" onclick="setGroup('262', this)">ПИ-б-о-262</button>
+      <button class="group-btn" data-group="261" onclick="setGroup('261', this)">ПИ-б-о-261</button>
+    </div>
+
+    <div class="toggle-group">
+      <span class="toggle-label">Неделя:</span>
+      <button class="week-btn" data-week="a" onclick="setWeek('a', this)">Неделя А</button>
+      <button class="week-btn" data-week="b" onclick="setWeek('b', this)">Неделя Б</button>
+    </div>
+
+    <button class="pwa-btn" onclick="installPWA()">📱 На рабочий стол</button>
   </div>
 
-  <div class="toggle-group">
-    <span class="toggle-label">Неделя:</span>
-    <button class="week-btn active" onclick="setWeek('a', this)">Неделя А</button>
-    <button class="week-btn" onclick="setWeek('b', this)">Неделя Б</button>
+  <div class="type-legend">
+    <span class="lesson-type lk">ЛК</span> лекция
+    <span class="lesson-type pz">ПЗ</span> практика
+  </div>
+
+  <!-- ================= ПИ-262 / НЕДЕЛЯ А ================= -->
+  <div id="sched-262-a" class="schedule-block">
+    <div class="day-column" data-day="1">
+      <div class="day-header">Пн</div>
+      <div class="lesson-card lk" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">История России</div>
+        <span class="lesson-room">323А</span>
+      </div>
+      <div class="lesson-card lk" data-start="13:20" data-end="14:50">
+        <div class="lesson-time">13:20 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Русский язык как государственный</div>
+        <span class="lesson-room">323А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="2">
+      <div class="day-header">Вт</div>
+      <div class="lesson-card pz" data-start="08:00" data-end="09:30">
+        <div class="lesson-time">8:00 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Проектная деятельность</div>
+        <span class="lesson-room">315А</span>
+      </div>
+      <div class="lesson-card lk" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование</div>
+        <span class="lesson-room">302А</span>
+      </div>
+      <div class="lesson-card lk" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Высшая математика</div>
+        <span class="lesson-room">323А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="3">
+      <div class="day-header">Ср</div>
+      <div class="lesson-card pz" data-start="08:00" data-end="09:30">
+        <div class="lesson-time">8:00 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Иностранный язык</div>
+        <span class="lesson-room">531Б/525Б</span>
+      </div>
+      <div class="lesson-card pz" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Высшая математика</div>
+        <span class="lesson-room">211А</span>
+      </div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">История России</div>
+        <span class="lesson-room">302В</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="4">
+      <div class="day-header">Чт</div>
+      <div class="lesson-card pz" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Физическая культура</div>
+        <span class="lesson-room">спортзал</span>
+      </div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Русский язык как государственный</div>
+        <span class="lesson-room">412В</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="5">
+      <div class="day-header">Пт</div>
+      <div class="lesson-card pz" data-start="15:00" data-end="16:30">
+        <div class="lesson-time">15:00 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование</div>
+        <span class="lesson-room">117А</span>
+      </div>
+      <div class="lesson-card pz" data-start="16:40" data-end="18:10">
+        <div class="lesson-time">16:40 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Информатика и основы программирования</div>
+        <span class="lesson-room">119А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="6">
+      <div class="day-header">Сб</div>
+      <div class="no-lessons">Пар нет</div>
+    </div>
+  </div>
+
+  <!-- ================= ПИ-262 / НЕДЕЛЯ Б ================= -->
+  <div id="sched-262-b" class="schedule-block">
+    <div class="day-column" data-day="1">
+      <div class="day-header">Пн</div>
+      <div class="lesson-card lk" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">История России</div>
+        <span class="lesson-room">323А</span>
+      </div>
+      <div class="lesson-card lk" data-start="13:20" data-end="14:50">
+        <div class="lesson-time">13:20 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Информатика и основы программирования</div>
+        <span class="lesson-room">323А</span>
+      </div>
+      <div class="lesson-card lk" data-start="15:00" data-end="16:30">
+        <div class="lesson-time">15:00 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Структуры и алгоритмы обработки данных</div>
+        <span class="lesson-room">323А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="2">
+      <div class="day-header">Вт</div>
+      <div class="lesson-card lk" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование</div>
+        <span class="lesson-room">302А</span>
+      </div>
+      <div class="lesson-card lk" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Высшая математика</div>
+        <span class="lesson-room">323А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="3">
+      <div class="day-header">Ср</div>
+      <div class="lesson-card pz" data-start="08:00" data-end="09:30">
+        <div class="lesson-time">8:00 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Иностранный язык</div>
+        <span class="lesson-room">525Б</span>
+      </div>
+      <div class="lesson-card pz" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Высшая математика</div>
+        <span class="lesson-room">211А</span>
+      </div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">История России</div>
+        <span class="lesson-room">302В</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="4">
+      <div class="day-header">Чт</div>
+      <div class="lesson-card pz" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Физическая культура</div>
+        <span class="lesson-room">спортзал</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="5">
+      <div class="day-header">Пт</div>
+      <div class="lesson-card pz" data-start="15:00" data-end="16:30">
+        <div class="lesson-time">15:00 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование п1</div>
+        <span class="lesson-room">117А</span>
+      </div>
+      <div class="lesson-card pz" data-start="16:40" data-end="18:10">
+        <div class="lesson-time">16:40 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Информатика и основы программирования</div>
+        <span class="lesson-room">119А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="6">
+      <div class="day-header">Сб</div>
+      <div class="lesson-card pz" data-start="13:20" data-end="14:50">
+        <div class="lesson-time">13:20 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Структуры и алгоритмы обработки данных п1</div>
+        <span class="lesson-room">308А</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ПИ-261 / НЕДЕЛЯ А ================= -->
+  <div id="sched-261-a" class="schedule-block">
+    <div class="day-column" data-day="1">
+      <div class="day-header">Пн</div>
+      <div class="lesson-card lk" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">История России</div>
+        <span class="lesson-room">323А</span>
+      </div>
+      <div class="lesson-card lk" data-start="13:20" data-end="14:50">
+        <div class="lesson-time">13:20 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Русский язык как государственный</div>
+        <span class="lesson-room">323А</span>
+      </div>
+      <div class="lesson-card pz" data-start="15:00" data-end="16:30">
+        <div class="lesson-time">15:00 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Русский язык как государственный</div>
+        <span class="lesson-room">411В</span>
+      </div>
+      <div class="lesson-card pz" data-start="16:40" data-end="18:10">
+        <div class="lesson-time">16:40 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Иностранный язык (п/гр 2)</div>
+        <span class="lesson-room">521Б</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="2">
+      <div class="day-header">Вт</div>
+      <div class="lesson-card lk" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование</div>
+        <span class="lesson-room">302А</span>
+      </div>
+      <div class="lesson-card lk" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Высшая математика</div>
+        <span class="lesson-room">323А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="3">
+      <div class="day-header">Ср</div>
+      <div class="lesson-card pz" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">История России</div>
+        <span class="lesson-room">302В</span>
+      </div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Иностранный язык (п/гр 1)</div>
+        <span class="lesson-room">211АВ</span>
+      </div>
+      <div class="lesson-card pz" data-start="13:20" data-end="14:50">
+        <div class="lesson-time">13:20 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Высшая математика</div>
+        <span class="lesson-room">211А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="4">
+      <div class="day-header">Чт</div>
+      <div class="lesson-card pz" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Физическая культура</div>
+        <span class="lesson-room">спортзал</span>
+      </div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Информатика и основы программирования (п/гр 1)</div>
+        <span class="lesson-room">119А</span>
+      </div>
+      <div class="lesson-card pz" data-start="13:20" data-end="14:50">
+        <div class="lesson-time">13:20 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Информатика и основы программирования (п/гр 2)</div>
+        <span class="lesson-room">119А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="5">
+      <div class="day-header">Пт</div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование (п/гр 1)</div>
+        <span class="lesson-room">8А</span>
+      </div>
+      <div class="lesson-card pz" data-start="13:20" data-end="14:50">
+        <div class="lesson-time">13:20 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование (п/гр 2)</div>
+        <span class="lesson-room">8А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="6">
+      <div class="day-header">Сб</div>
+      <div class="no-lessons">Пар нет</div>
+    </div>
+  </div>
+
+  <!-- ================= ПИ-261 / НЕДЕЛЯ Б ================= -->
+  <div id="sched-261-b" class="schedule-block">
+    <div class="day-column" data-day="1">
+      <div class="day-header">Пн</div>
+      <div class="lesson-card lk" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">История России</div>
+        <span class="lesson-room">323А</span>
+      </div>
+      <div class="lesson-card lk" data-start="13:20" data-end="14:50">
+        <div class="lesson-time">13:20 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Информатика и основы программирования</div>
+        <span class="lesson-room">323А</span>
+      </div>
+      <div class="lesson-card lk" data-start="15:00" data-end="16:30">
+        <div class="lesson-time">15:00 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Структуры и алгоритмы обработки данных</div>
+        <span class="lesson-room">323А</span>
+      </div>
+      <div class="lesson-card pz" data-start="16:40" data-end="18:10">
+        <div class="lesson-time">16:40 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Иностранный язык (п/гр 2)</div>
+        <span class="lesson-room">531Б</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="2">
+      <div class="day-header">Вт</div>
+      <div class="lesson-card pz" data-start="08:00" data-end="09:30">
+        <div class="lesson-time">8:00 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Проектная деятельность</div>
+        <span class="lesson-room">315А</span>
+      </div>
+      <div class="lesson-card lk" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование</div>
+        <span class="lesson-room">302А</span>
+      </div>
+      <div class="lesson-card lk" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Высшая математика</div>
+        <span class="lesson-room">323А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="3">
+      <div class="day-header">Ср</div>
+      <div class="lesson-card pz" data-start="08:00" data-end="09:30">
+        <div class="lesson-time">8:00 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Высшая математика</div>
+        <span class="lesson-room">211А</span>
+      </div>
+      <div class="lesson-card lk" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type lk">ЛК</span></div>
+        <div class="lesson-name">Высшая математика</div>
+        <span class="lesson-room">302А</span>
+      </div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Иностранный язык (п/гр 1)</div>
+        <span class="lesson-room">500Б</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="4">
+      <div class="day-header">Чт</div>
+      <div class="lesson-card pz" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Физическая культура</div>
+        <span class="lesson-room">спортзал</span>
+      </div>
+      <div class="lesson-card pz" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Информатика и основы программирования (т/гр 1)</div>
+        <span class="lesson-room">120А</span>
+      </div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Информатика и основы программирования (и/гр 2)</div>
+        <span class="lesson-room">120А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="5">
+      <div class="day-header">Пт</div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование (п/гр 1)</div>
+        <span class="lesson-room">8А</span>
+      </div>
+      <div class="lesson-card pz" data-start="13:20" data-end="14:50">
+        <div class="lesson-time">13:20 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Алгоритмизация и программирование (п/гр 2)</div>
+        <span class="lesson-room">8А</span>
+      </div>
+    </div>
+
+    <div class="day-column" data-day="6">
+      <div class="day-header">Сб</div>
+      <div class="lesson-card pz" data-start="09:50" data-end="11:20">
+        <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Структуры и алгоритмы обработки данных(п/гр 1)</div>
+        <span class="lesson-room">308А</span>
+      </div>
+      <div class="lesson-card pz" data-start="11:30" data-end="13:00">
+        <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
+        <div class="lesson-name">Структуры и алгоритмы обработки данных (п/гр 2)</div>
+        <span class="lesson-room">308А</span>
+      </div>
+    </div>
   </div>
 
 </div>
 
-<div class="type-legend">
-  <span class="lesson-type lk">ЛК</span> лекция
-  <span class="lesson-type pz">ПЗ</span> практика
-</div>
-
-<!-- ================= ПИ-262 / НЕДЕЛЯ А ================= -->
-<div id="sched-262-a" class="schedule-block active">
-  <div class="day-column">
-    <div class="day-header">Пн</div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">История России</div>
-      <span class="lesson-room">323А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">13:20 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Русский язык как государственный</div>
-      <span class="lesson-room">323А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Вт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">8:00 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Проектная деятельность</div>
-      <span class="lesson-room">315А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">9:50 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">302А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">323А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Ср</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">8:00 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Иностранный язык</div>
-      <span class="lesson-room">531Б/525Б</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">211А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">История России</div>
-      <span class="lesson-room">302В</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Чт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Физическая культура</div>
-      <span class="lesson-room">спортзал</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Русский язык как государственный</div>
-      <span class="lesson-room">412В</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Пт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">15:00 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">117А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">16:40 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Информатика и основы программирования</div>
-      <span class="lesson-room">119А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Сб</div>
-    <div class="no-lessons">Пар нет</div>
-  </div>
-</div>
-
-<!-- ================= ПИ-262 / НЕДЕЛЯ Б ================= -->
-<div id="sched-262-b" class="schedule-block">
-  <div class="day-column">
-    <div class="day-header">Пн</div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">История России</div>
-      <span class="lesson-room">323А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">13:20<span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Информатика и основы программирования</div>
-      <span class="lesson-room">323А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">15:00<span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Структуры и алгоритмы обработки данных</div>
-      <span class="lesson-room">323А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Вт</div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">9:50<span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">302А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">11:30<span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">323А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Ср</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">8:00<span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Иностранный язык</div>
-      <span class="lesson-room">525Б</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">9:50<span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">211А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30<span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">История России</div>
-      <span class="lesson-room">302В</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Чт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">9:50<span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Физическая культура</div>
-      <span class="lesson-room">спортзал</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Пт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">15:00<span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование п1</div>
-      <span class="lesson-room">117А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">16:40<span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Информатика и основы программирования</div>
-      <span class="lesson-room">119А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Сб</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">13:20<span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Структуры и алгоритмы обработки данных п1</div>
-      <span class="lesson-room">308А</span>
-    </div>
-  </div>
-</div>
-
-<!-- ================= ПИ-261 / НЕДЕЛЯ А ================= -->
-<div id="sched-261-a" class="schedule-block">
-  <div class="day-column">
-    <div class="day-header">Пн</div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">История России</div>
-      <span class="lesson-room">323А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">13:20 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Русский язык как государственный</div>
-      <span class="lesson-room">323А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">15:00 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Русский язык как государственный</div>
-      <span class="lesson-room">411В</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">16:40 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Иностранный язык (п/гр 2)</div>
-      <span class="lesson-room">521Б</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Вт</div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">9:50 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">302А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">323А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Ср</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">История России</div>
-      <span class="lesson-room">302В</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Иностранный язык (п/гр 1)</div>
-      <span class="lesson-room">211АВ</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">13:20 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">211А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Чт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Физическая культура</div>
-      <span class="lesson-room">спортзал</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Информатика и основы программирования (п/гр 1)</div>
-      <span class="lesson-room">119А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">13:20 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Информатика и основы программирования (п/гр 2)</div>
-      <span class="lesson-room">119А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Пт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование (п/гр 1)</div>
-      <span class="lesson-room">8А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">13:20 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование (п/гр 2)</div>
-      <span class="lesson-room">8А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Сб</div>
-    <div class="no-lessons">Пар нет</div>
-  </div>
-</div>
-
-<!-- ================= ПИ-261 / НЕДЕЛЯ Б ================= -->
-<div id="sched-261-b" class="schedule-block">
-  <div class="day-column">
-    <div class="day-header">Пн</div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">История России</div>
-      <span class="lesson-room">323А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">13:20 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Информатика и основы программирования</div>
-      <span class="lesson-room">323А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">15:00 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Структуры и алгоритмы обработки данных</div>
-      <span class="lesson-room">323А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">16:40 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Иностранный язык (п/гр 2)</div>
-      <span class="lesson-room">531Б</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Вт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">8:00 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Проектная деятельность</div>
-      <span class="lesson-room">315А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">9:50 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование</div>
-      <span class="lesson-room">302А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">11:30 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">323А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Ср</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">8:00 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">211А</span>
-    </div>
-    <div class="lesson-card lk">
-      <div class="lesson-time">0 <span class="lesson-type lk">ЛК</span></div>
-      <div class="lesson-name">Высшая математика</div>
-      <span class="lesson-room">302А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Иностранный язык (п/гр 1)</div>
-      <span class="lesson-room">500Б</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Чт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Физическая культура</div>
-      <span class="lesson-room">спортзал</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Информатика и основы программирования (т/гр 1)</div>
-      <span class="lesson-room">120А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Информатика и основы программирования (и/гр 2)</div>
-      <span class="lesson-room">120А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Пт</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование (п/гр 1)</div>
-      <span class="lesson-room">8А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">13:20 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Алгоритмизация и программирование (п/гр 2)</div>
-      <span class="lesson-room">8А</span>
-    </div>
-  </div>
-
-  <div class="day-column">
-    <div class="day-header">Сб</div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">9:50 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Структуры и алгоритмы обработки данных(п/гр 1)</div>
-      <span class="lesson-room">308А</span>
-    </div>
-    <div class="lesson-card pz">
-      <div class="lesson-time">11:30 <span class="lesson-type pz">ПЗ</span></div>
-      <div class="lesson-name">Структуры и алгоритмы обработки данных (п/гр 2)</div>
-      <span class="lesson-room">308А</span>
-    </div>
+<!-- ВКЛАДКА: УЧЁБА -->
+<div id="tab-study" class="tab-content">
+  <div class="study-stub">
+    <h3>📖 Раздел «Учёба»</h3>
+    <p>Данный раздел находится в разработке. Скоро здесь появятся учебные материалы, ссылки и полезные файлы.</p>
   </div>
 </div>
 
 <!-- БЛОК ОБ АВТОРЕ -->
 <div class="contact-box">
-  <span class="contact-text">Заметили ошибку в расписании или есть предложения?</span>
+  <span class="contact-text">Заметили ошибку в расписании или есть предложения?</span>[cite: 1]
   <a href="https://t.me/lxb4k" target="_blank" class="contact-btn">
     Telegram
-  </a>
+  </a>[cite: 1]
 </div>
 
-<!-- СКРИПТ ПЕРЕКЛЮЧЕНИЯ И СКАЧИВАНИЯ ICS -->
+<!-- СКРИПТЫ -->
 <script>
-  let currentGroup = '262';
-  let currentWeek = 'a';
+  let currentGroup = localStorage.getItem('userGroup') || '262';
+  let currentWeek = getAutoWeek();
+  let deferredPrompt = null;
 
-  const icsFiles = {
-    '261': '/files/pi-261.ics',
-    '262': '/files/pi-262.ics'
-  };
+  // Автоопределение недели А/Б
+  function getAutoWeek() {
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const weekNumber = Math.ceil((((now - startOfYear) / 86400000) + startOfYear.getDay() + 1) / 7);
+    return (weekNumber % 2 === 0) ? 'b' : 'a';
+  }
 
+  // Переключение вкладок
+  function switchTab(tabName, btn) {
+    document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+    btn.classList.add('active');
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+  }
+
+  // Обновление отображения
   function updateDisplay() {
     document.querySelectorAll('.schedule-block').forEach(el => el.classList.remove('active'));
+
+    document.querySelectorAll('.group-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.group === currentGroup);
+    });
+
+    document.querySelectorAll('.week-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.week === currentWeek);
+    });
+
     const targetId = `sched-${currentGroup}-${currentWeek}`;
     const target = document.getElementById(targetId);
     if (target) {
       target.classList.add('active');
+      highlightTodayAndLesson(target);
     }
   }
 
   function setGroup(group, btn) {
     currentGroup = group;
-    btn.parentElement.querySelectorAll('.group-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    localStorage.setItem('userGroup', group);
     updateDisplay();
   }
 
   function setWeek(week, btn) {
     currentWeek = week;
-    btn.parentElement.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
     updateDisplay();
   }
 
-  function downloadStaticICS() {
-    const filePath = icsFiles[currentGroup];
-    if (filePath) {
-      const link = document.createElement('a');
-      link.href = filePath;
-      link.download = `ПИ-б-о-${currentGroup}.ics`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  // Подсветка текущего дня и текущей пары
+  function highlightTodayAndLesson(container) {
+    const now = new Date();
+    const dayOfWeek = now.getDay(); // 0 - Вс, 1 - Пн... 6 - Сб
+    const currentMins = now.getHours() * 60 + now.getMinutes();
+
+    container.querySelectorAll('.day-column').forEach(c => c.classList.remove('today'));
+    container.querySelectorAll('.lesson-card').forEach(c => c.classList.remove('active-lesson'));
+
+    if (dayOfWeek === 0) return; // В воскресенье расписания нет
+
+    const todayCol = container.querySelector(`.day-column[data-day="${dayOfWeek}"]`);
+    if (todayCol) {
+      todayCol.classList.add('today');
+
+      // Автопрокрутка к текущему дню
+      todayCol.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+      // Подсветка пары по времени
+      todayCol.querySelectorAll('.lesson-card').forEach(card => {
+        const start = card.getAttribute('data-start');
+        const end = card.getAttribute('data-end');
+
+        if (start && end) {
+          const [sH, sM] = start.split(':').map(Number);
+          const [eH, eM] = end.split(':').map(Number);
+          const startMins = sH * 60 + sM;
+          const endMins = eH * 60 + eM;
+
+          if (currentMins >= startMins && currentMins <= endMins) {
+            card.classList.add('active-lesson');
+          }
+        }
+      });
     }
   }
+
+  // PWA Установка
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  function installPWA() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+    } else {
+      alert('Инструкция по установке:\n\n• iOS (Safari): Нажмите «Поделиться» -> «На экран «Домой»»\n• Android (Chrome): Откройте меню браузера (3 точки) -> «Добавить на главный экран»');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', updateDisplay);
 </script>

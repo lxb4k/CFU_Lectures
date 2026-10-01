@@ -238,7 +238,6 @@ title: Физтех | ПИ
     <button class="week-btn" onclick="setWeek('b', this)">Неделя Б</button>
   </div>
 
-  <button class="ics-btn" onclick="downloadStaticICS()">📅 Скачать .ics</button>
 </div>
 
 <!-- ================= ПИ-262 / НЕДЕЛЯ А ================= -->

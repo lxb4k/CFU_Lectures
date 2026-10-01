@@ -1,55 +1,30 @@
-@use "./variables.scss" as *;
+/* Расписание ПИ — дополнения для Quartz 4 */
 
-// put your custom CSS here!
-
-/* Стиль для контейнера расписания */
-.schedule-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-  margin-top: 1rem;
+.current-day-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: .2rem 0 .8rem;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(42, 171, 238, .10);
+  color: var(--secondary, #2AABEE);
+  font-size: .78rem;
+  font-weight: 700;
 }
 
-/* Карточка дня */
-.day-card {
-  background: var(--lightbg);
-  border: 1px solid var(--gray);
-  border-radius: 8px;
-  padding: 12px;
+.group-btn[aria-pressed="true"],
+.week-btn[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px rgba(42, 171, 238, .18);
 }
 
-.day-card h4 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  border-bottom: 2px solid var(--secondary);
-  padding-bottom: 4px;
-  color: var(--tertiary);
+.lesson-card.next-lesson {
+  outline: 2px dashed rgba(42, 171, 238, .35);
+  outline-offset: 1px;
 }
 
-/* Элемент пары */
-.pair {
-  margin-bottom: 10px;
-  padding: 6px 8px;
-  background: var(--highlight);
-  border-left: 3px solid var(--secondary);
-  border-radius: 4px;
-}
-
-.pair-time {
-  font-weight: bold;
-  font-size: 0.85rem;
-  color: var(--secondary);
-}
-
-.pair-title {
-  font-size: 0.9rem;
-  margin: 2px 0;
-}
-
-.pair-room {
-  font-size: 0.75rem;
-  color: var(--gray);
-}
-html {
-  font-size: 106%;  /* было 100%, для заметного увеличения поставь 112% */
+@media (max-width: 768px) {
+  .group-btn, .week-btn, .pwa-btn {
+    min-height: 42px;
+  }
 }

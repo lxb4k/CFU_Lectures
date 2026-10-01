@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "index.md",
+                "file": "Физтех | ПИ.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "Физтех | ПИ"
             }
           }
         ]
@@ -190,9 +190,9 @@
   },
   "active": "534537a2a92b3ebc",
   "lastOpenFiles": [
+    "index.md",
     "Физтех | ПИ.md",
     "Высшая математика/29.09.26 — Миноры, обратная матрица, правило Крамера.md",
-    "index.md",
     "История России/14.09.26  —  Древнерусское государство (IX–XII вв.).md",
     "Расписание/ПИ-б-о-262.md",
     "Расписание/ПИ-б-о-261.md",

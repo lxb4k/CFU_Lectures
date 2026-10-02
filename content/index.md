@@ -819,8 +819,8 @@ var DAY_NAMES = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 var DAY_ON = ['в понедельник', 'во вторник', 'в среду', 'в четверг', 'в пятницу', 'в субботу'];
 
 var icsFiles = {
-  '261': '/files/pi-261.ics',
-  '262': '/files/pi-262.ics'
+  '261': '/static/files/pi-261.ics',
+  '262': '/static/files/pi-262.ics'
 };
 
 function esc(s) {
@@ -924,16 +924,21 @@ function scrollToToday() {
   if (r.right > b.right || r.left < b.left) blk.scrollLeft += r.left - b.left;
 }
 
-/* Телефон: при открытии сразу прокручиваем к сегодняшнему дню (порядок дней не меняем) */
+/* Телефон: при открытии прокручиваем так, чтобы нужный день оказался по центру экрана */
 function scrollToTodayMobile() {
   if (!window.matchMedia || !window.matchMedia('(max-width: 768px)').matches) return;
   if (window.scrollY > 100) return;
   var blk = document.getElementById('sched-' + currentGroup + '-' + currentWeek);
   var col = blk && blk.querySelector('.day-column.focus');
   if (!col) return;
-  var top = col.getBoundingClientRect().top;
-  if (top < window.innerHeight * 0.4) return; // и так на виду
-  window.scrollTo(0, top + window.scrollY - 12);
+  var r = col.getBoundingClientRect();
+  var vh = window.innerHeight;
+  var target = r.height > vh * 0.85
+    ? r.top + window.scrollY - 16
+    : r.top + window.scrollY - (vh - r.height) / 2;
+  if (target < 0) target = 0;
+  if (Math.abs(target - window.scrollY) < 30) return;
+  window.scrollTo(0, target);
 }
 
 /* Боковое меню с конспектами (Quartz Explorer) */
@@ -1044,8 +1049,8 @@ function setupPWA() {
     Object.keys(attrs).forEach(function (k) { el.setAttribute(k, attrs[k]); });
     head.appendChild(el);
   }
-  if (!document.querySelector('link[rel="manifest"]')) add('link', { rel: 'manifest', href: '/manifest.json' });
-  if (!document.querySelector('link[rel="apple-touch-icon"]')) add('link', { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon.png' });
+  if (!document.querySelector('link[rel="manifest"]')) add('link', { rel: 'manifest', href: '/static/manifest.json' });
+  if (!document.querySelector('link[rel="apple-touch-icon"]')) add('link', { rel: 'apple-touch-icon', href: '/static/icons/apple-touch-icon.png' });
   if (!document.querySelector('meta[name="apple-mobile-web-app-capable"]')) {
     add('meta', { name: 'apple-mobile-web-app-capable', content: 'yes' });
     add('meta', { name: 'apple-mobile-web-app-title', content: 'Расписание' });
@@ -1059,8 +1064,21 @@ function setupPWA() {
   if (hint && !standalone && /iphone|ipad|ipod/i.test(navigator.userAgent)) hint.style.display = 'block';
 }
 
+/* Первый заход: тёмная тема. Дальше работает обычный переключатель, выбор запоминается. */
+function defaultDarkTheme() {
+  try {
+    if (localStorage.getItem('theme')) return;
+    var root = document.documentElement;
+    root.setAttribute('saved-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+    var tgl = document.querySelector('#darkmode-toggle');
+    if (tgl) tgl.checked = true;
+  } catch (e) {}
+}
+
 function initSchedule() {
   if (!document.getElementById('sched-262-a')) return;
+  defaultDarkTheme();
   var n = nowInfo();
   realWeek = weekOf(n.utc);
   try {
@@ -1074,7 +1092,8 @@ function initSchedule() {
   if (schedTimer) clearInterval(schedTimer);
   schedTimer = setInterval(tick, 30000);
   setupPWA();
-  setTimeout(scrollToTodayMobile, 80);
+  if (document.readyState === 'complete') setTimeout(scrollToTodayMobile, 80);
+  else window.addEventListener('load', function () { setTimeout(scrollToTodayMobile, 80); }, { once: true });
   setTimeout(markNotesToggle, 300);
 }
 

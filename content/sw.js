@@ -2,7 +2,7 @@ var CACHE = 'schedule-v1';
 
 self.addEventListener('install', function (event) {
   event.waitUntil(caches.open(CACHE).then(function (cache) {
-    return Promise.all(['/', '/manifest.json', '/icons/icon-192.png'].map(function (u) {
+    return Promise.all(['/', '/static/manifest.json', '/static/icons/icon-192.png'].map(function (u) {
       return cache.add(u).catch(function () {});
     }));
   }));

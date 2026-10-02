@@ -293,7 +293,19 @@ title: Физтех | ПИ
   }
 
   .day-column.focus-next .day-header::after {
-    content: attr(data-badge);
+    content: "Завтра";
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 7px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    vertical-align: middle;
+    border-radius: 999px;
+    background: var(--secondary);
+    color: #ffffff;
+	    
   }
 
   .lesson-card.now {

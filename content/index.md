@@ -368,13 +368,6 @@ title: Физтех | ПИ
     margin: -0.4rem 0 1rem;
   }
 
-  /* Телефон: сегодняшний день показываем первым */
-  @media (max-width: 768px) {
-    .day-column.today {
-      order: -1;
-    }
-  }
-
   .nb-tag {
     margin-right: 0.6em;
     min-width: 0;
@@ -427,6 +420,33 @@ title: Физтех | ПИ
       display: none;
     }
   }
+
+  /* Кнопка «Конспекты»: только на телефоне (на ПК проводник виден сбоку) */
+  .notes-btn {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .notes-btn {
+      display: inline-flex;
+    }
+
+    /* Мигающий ободок на кнопке бокового меню, пока её не нажали */
+    .explorer-attn {
+      border-radius: 6px;
+      animation: explorer-pulse 1.8s ease-out infinite;
+    }
+  }
+
+  @keyframes explorer-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(123, 151, 170, 0.75); }
+    70%  { box-shadow: 0 0 0 10px rgba(123, 151, 170, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(123, 151, 170, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .explorer-attn { animation: none; box-shadow: 0 0 0 2px var(--secondary); }
+  }
 </style>
 
 <!-- ПЕРЕКЛЮЧАТЕЛИ, КАЛЕНДАРЬ И УСТАНОВКА -->
@@ -442,6 +462,7 @@ title: Физтех | ПИ
     <button class="week-btn" data-week="b" onclick="setWeek('b', this)"><span class="full">Неделя </span>Б</button>
   </div>
   <button class="ics-btn" onclick="downloadStaticICS()"><span class="full">В календарь (.ics)</span><span class="short">ICS</span></button>
+  <button class="ics-btn notes-btn" onclick="openNotes()">📚 Конспекты</button>
   <button class="ics-btn" id="install-btn" style="display:none" onclick="installApp()"><span class="full">Установить приложение</span><span class="short">Установить</span></button>
 </div>
 
@@ -913,6 +934,49 @@ function scrollToToday() {
   if (r.right > b.right || r.left < b.left) blk.scrollLeft += r.left - b.left;
 }
 
+/* Телефон: при открытии сразу прокручиваем к сегодняшнему дню (порядок дней не меняем) */
+function scrollToTodayMobile() {
+  if (!window.matchMedia || !window.matchMedia('(max-width: 768px)').matches) return;
+  if (window.scrollY > 100) return;
+  var blk = document.getElementById('sched-' + currentGroup + '-' + currentWeek);
+  var col = blk && blk.querySelector('.day-column.today');
+  if (!col) return;
+  var top = col.getBoundingClientRect().top;
+  if (top < window.innerHeight * 0.4) return; // и так на виду
+  window.scrollTo(0, top + window.scrollY - 12);
+}
+
+/* Боковое меню с конспектами (Quartz Explorer) */
+function explorerToggles() {
+  return Array.prototype.slice.call(document.querySelectorAll(
+    '.explorer-toggle.mobile-explorer, .mobile-explorer, .explorer > button, .explorer-toggle'
+  ));
+}
+
+function markNotesToggle() {
+  var seen = false;
+  try { seen = localStorage.getItem('explorer-seen') === '1'; } catch (e) {}
+  if (seen) return;
+  explorerToggles().forEach(function (b) {
+    if (b.__attn) return;
+    b.__attn = true;
+    b.classList.add('explorer-attn');
+    b.addEventListener('click', function () {
+      explorerToggles().forEach(function (x) { x.classList.remove('explorer-attn'); });
+      try { localStorage.setItem('explorer-seen', '1'); } catch (e) {}
+    });
+  });
+}
+
+function openNotes() {
+  var list = explorerToggles();
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].offsetParent !== null) { list[i].click(); return; }
+  }
+  window.scrollTo(0, 0);
+  markNotesToggle();
+}
+
 function renderNext() {
   var box = document.getElementById('next-box');
   if (!box) return;
@@ -1047,6 +1111,8 @@ function initSchedule() {
   if (schedTimer) clearInterval(schedTimer);
   schedTimer = setInterval(tick, 30000);
   setupPWA();
+  setTimeout(scrollToTodayMobile, 80);
+  setTimeout(markNotesToggle, 300);
 }
 
 if (!window.__schedBound) {

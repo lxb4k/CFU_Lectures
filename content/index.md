@@ -2,8 +2,6 @@
 title: Физтех | ПИ
 ---
 
-<div class="next-box" id="next-box"></div>
-
 <!-- CSS СТИЛИ -->
 <style>
   .controls-wrapper {
@@ -272,12 +270,14 @@ title: Физтех | ПИ
     color: var(--gray);
   }
 
-  .day-column.today {
+  .day-column.today,
+  .day-column.focus-next {
     border-color: var(--secondary);
     box-shadow: 0 0 0 1px var(--secondary);
   }
 
-  .day-column.today .day-header::after {
+  .day-column.today .day-header::after,
+  .day-column.focus-next .day-header::after {
     content: "сегодня";
     display: inline-block;
     margin-left: 6px;
@@ -290,6 +290,10 @@ title: Физтех | ПИ
     border-radius: 999px;
     background: var(--secondary);
     color: #ffffff;
+  }
+
+  .day-column.focus-next .day-header::after {
+    content: attr(data-badge);
   }
 
   .lesson-card.now {
@@ -318,59 +322,10 @@ title: Физтех | ПИ
     vertical-align: middle;
   }
 
-  .next-box {
-    margin: 1rem 0;
-    padding: 10px 14px;
-    background-color: var(--lightbg);
-    border: 1px solid var(--lightgray);
-    border-radius: 8px;
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-
-  .next-box:empty {
-    display: none;
-  }
-
-  .nb-title {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-bottom: 2px;
-  }
-
-  .nb-row {
-    color: var(--darkgray);
-  }
-
-  .nb-row b {
-    color: var(--dark);
-  }
-
-  .nb-tag {
-    display: inline-block;
-    min-width: 5.2em;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--tertiary);
-  }
-
-  .nb-sub {
-    color: var(--gray);
-    font-size: 0.8rem;
-  }
-
   .install-hint {
     font-size: 0.8rem;
     color: var(--gray);
     margin: -0.4rem 0 1rem;
-  }
-
-  .nb-tag {
-    margin-right: 0.6em;
-    min-width: 0;
   }
 
   .controls-wrapper .short {
@@ -386,16 +341,6 @@ title: Физтех | ПИ
     h1.article-title {
       font-size: 1.5rem;
       margin: 0.3rem 0 0.2rem;
-    }
-
-    .next-box {
-      margin: 0.5rem 0;
-      padding: 8px 12px;
-      font-size: 0.85rem;
-    }
-
-    .nb-title {
-      display: none;
     }
 
     .controls-wrapper {
@@ -905,29 +850,62 @@ function lessonsOf(g, w, d) {
   });
 }
 
+/* День, который показываем «в фокусе»: сегодня, пока есть пары, иначе ближайший день с парами */
+function focusFor(g) {
+  var n = nowInfo();
+  for (var i = 0; i < 14; i++) {
+    var d = (n.dow + i) % 7;
+    if (d > 5) continue;
+    var w = weekOf(n.utc + i * 86400000);
+    var list = lessonsOf(g, w, d);
+    if (!list.length) continue;
+    if (i === 0) {
+      var last = 0;
+      list.forEach(function (l) { if (l.end > last) last = l.end; });
+      if (n.mins >= last) continue;
+    }
+    return { i: i, d: d, week: w };
+  }
+  return null;
+}
+
 function markToday() {
   var n = nowInfo();
-  Array.prototype.forEach.call(document.querySelectorAll('.day-column.today, .lesson-card.now'), function (el) {
+  Array.prototype.forEach.call(document.querySelectorAll('.day-column.today, .day-column.focus, .day-column.focus-next, .lesson-card.now'), function (el) {
     el.classList.remove('today');
+    el.classList.remove('focus');
+    el.classList.remove('focus-next');
+    el.removeAttribute('data-badge');
     el.classList.remove('now');
   });
-  if (n.dow > 5) return;
   ['262', '261'].forEach(function (g) {
-    var col = document.querySelector('#sched-' + g + '-' + realWeek + ' .day-column[data-d="' + n.dow + '"]');
-    if (!col) return;
-    col.classList.add('today');
-    Array.prototype.forEach.call(col.querySelectorAll('.lesson-card'), function (c) {
-      var s = Number(c.getAttribute('data-start'));
-      var e = Number(c.getAttribute('data-end'));
-      if (n.mins >= s && n.mins < e) c.classList.add('now');
-    });
+    if (n.dow <= 5) {
+      var col = document.querySelector('#sched-' + g + '-' + realWeek + ' .day-column[data-d="' + n.dow + '"]');
+      if (col) {
+        col.classList.add('today');
+        Array.prototype.forEach.call(col.querySelectorAll('.lesson-card'), function (c) {
+          var s0 = Number(c.getAttribute('data-start'));
+          var e0 = Number(c.getAttribute('data-end'));
+          if (n.mins >= s0 && n.mins < e0) c.classList.add('now');
+        });
+      }
+    }
+    var f = focusFor(g);
+    if (!f) return;
+    var fc = document.querySelector('#sched-' + g + '-' + f.week + ' .day-column[data-d="' + f.d + '"]');
+    if (!fc) return;
+    fc.classList.add('focus');
+    if (f.i > 0) {
+      fc.classList.add('focus-next');
+      fc.setAttribute('data-badge', f.i === 1 ? 'завтра' : 'далее');
+    }
   });
 }
 
 function scrollToToday() {
   var blk = document.getElementById('sched-' + currentGroup + '-' + currentWeek);
   if (!blk) return;
-  var col = blk.querySelector('.day-column.today');
+  var col = blk.querySelector('.day-column.focus');
   if (!col || blk.scrollWidth <= blk.clientWidth) return;
   var r = col.getBoundingClientRect();
   var b = blk.getBoundingClientRect();
@@ -939,7 +917,7 @@ function scrollToTodayMobile() {
   if (!window.matchMedia || !window.matchMedia('(max-width: 768px)').matches) return;
   if (window.scrollY > 100) return;
   var blk = document.getElementById('sched-' + currentGroup + '-' + currentWeek);
-  var col = blk && blk.querySelector('.day-column.today');
+  var col = blk && blk.querySelector('.day-column.focus');
   if (!col) return;
   var top = col.getBoundingClientRect().top;
   if (top < window.innerHeight * 0.4) return; // и так на виду
@@ -977,45 +955,6 @@ function openNotes() {
   markNotesToggle();
 }
 
-function renderNext() {
-  var box = document.getElementById('next-box');
-  if (!box) return;
-  var n = nowInfo();
-  var cur = null, nxt = null, nxtDay = 0, nxtD = 0;
-  for (var i = 0; i < 14 && !nxt; i++) {
-    var d = (n.dow + i) % 7;
-    if (d > 5) continue;
-    var list = lessonsOf(currentGroup, weekOf(n.utc + i * 86400000), d);
-    for (var k = 0; k < list.length; k++) {
-      var l = list[k];
-      if (i === 0 && n.mins >= l.start && n.mins < l.end) { cur = l; continue; }
-      if (i > 0 || l.start > n.mins) { nxt = l; nxtDay = i; nxtD = d; break; }
-    }
-  }
-  var html = '<div class="nb-title">ПИ-б-о-' + currentGroup + '</div>';
-  if (cur) {
-    html += '<div class="nb-row"><span class="nb-tag">Сейчас</span><b>' + esc(cur.name) + '</b> · до ' + hm(cur.end) +
-      (cur.room ? ' · ' + esc(cur.room) : '') + '</div>';
-  }
-  if (nxt) {
-    var when;
-    if (nxtDay === 0) {
-      var diff = nxt.start - n.mins;
-      var h = Math.floor(diff / 60), m = diff % 60;
-      when = ('через ' + (h ? h + ' ч ' : '') + (m || !h ? m + ' мин' : '')).trim();
-    } else if (nxtDay === 1) {
-      when = 'завтра, ' + hm(nxt.start);
-    } else {
-      when = DAY_ON[nxtD] + ', ' + hm(nxt.start);
-    }
-    var sub = [nxt.room, nxt.teacher].filter(Boolean).join(' · ');
-    html += '<div class="nb-row"><span class="nb-tag">Следующая</span><b>' + esc(nxt.name) + '</b> · ' + when +
-      (sub ? ' <span class="nb-sub">· ' + esc(sub) + '</span>' : '') + '</div>';
-  }
-  if (!cur && !nxt) html += '<div class="nb-row">Ближайших пар нет</div>';
-  box.innerHTML = html;
-}
-
 function syncButtons() {
   Array.prototype.forEach.call(document.querySelectorAll('.group-btn'), function (b) {
     b.classList.toggle('active', b.getAttribute('data-group') === currentGroup);
@@ -1026,19 +965,28 @@ function syncButtons() {
   });
 }
 
-function tick() {
-  realWeek = weekOf(nowInfo().utc);
-  markToday();
-  syncButtons();
-  renderNext();
-}
+var userWeek = false;
 
-function updateDisplay() {
+function showBlock() {
   Array.prototype.forEach.call(document.querySelectorAll('.schedule-block'), function (el) {
     el.classList.remove('active');
   });
   var target = document.getElementById('sched-' + currentGroup + '-' + currentWeek);
   if (target) target.classList.add('active');
+}
+
+function tick() {
+  realWeek = weekOf(nowInfo().utc);
+  if (!userWeek) {
+    var f = focusFor(currentGroup);
+    if (f && f.week !== currentWeek) { currentWeek = f.week; showBlock(); }
+  }
+  markToday();
+  syncButtons();
+}
+
+function updateDisplay() {
+  showBlock();
   tick();
   scrollToToday();
 }
@@ -1050,6 +998,7 @@ function setGroup(group) {
 }
 
 function setWeek(week) {
+  userWeek = true;
   currentWeek = week;
   updateDisplay();
 }
@@ -1102,11 +1051,13 @@ function initSchedule() {
   if (!document.getElementById('sched-262-a')) return;
   var n = nowInfo();
   realWeek = weekOf(n.utc);
-  currentWeek = n.dow > 5 ? (realWeek === 'a' ? 'b' : 'a') : realWeek;
   try {
     var sg = localStorage.getItem('sched-group');
     if (sg === '261' || sg === '262') currentGroup = sg;
   } catch (e) {}
+  var f0 = focusFor(currentGroup);
+  currentWeek = f0 ? f0.week : (n.dow > 5 ? (realWeek === 'a' ? 'b' : 'a') : realWeek);
+  userWeek = false;
   updateDisplay();
   if (schedTimer) clearInterval(schedTimer);
   schedTimer = setInterval(tick, 30000);
